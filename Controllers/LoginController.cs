@@ -22,8 +22,7 @@ namespace T11ASP.NetProject.Controllers
         public IActionResult Index()
         {
             string usernameInSession = HttpContext.Session.GetString("sessionId");
-            var sessionindb = context.Customer.FirstOrDefault(x => x.SessionId == usernameInSession);
-            if (sessionindb!=null)
+            if (usernameInSession!=null) 
             {
                 return RedirectToAction("index","home");
             }
@@ -41,18 +40,46 @@ namespace T11ASP.NetProject.Controllers
 
                 return View("index");
             }
-            //if customer exist, but no sessionId
-            if (customer.SessionId == null)
-            {
-                customer.SessionId = Guid.NewGuid().ToString();
-                HttpContext.Session.SetString("sessionId", customer.SessionId);
-            }
-            //customer exist, got sessionID
-            HttpContext.Session.SetString("sessionId", customer.SessionId);
+            
+            //if customer exist, set sessionID to his name
+            HttpContext.Session.SetString("sessionId", customer.CustomerId);
             ViewData["userLoggedIn"] = customer.CustomerId;
             return RedirectToAction("index", "home");
         }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public IActionResult Register(string username,string password,string address,string name)
+        {
+            var usernameexist = context.Customer.Find(username);
+            if(username==null|| password==null||usernameexist!=null)
+            {
+                ViewData["username"]=username;
+                ViewData["errMsg"] = "failed to register for an account. please type username and password again.";
+                return View();
+            }
+            var CreateCustomer = new Customer
+            {
+                CustomerId = username,
+                Address = address,
+                Name = name,
+                Password = password
+            };
+            context.Customer.Add(CreateCustomer);
+            context.SaveChanges();
+
+            return RedirectToAction("index", "home");
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("index", "login");
+        }
         
     }
 }

@@ -18,6 +18,7 @@ namespace T11ASP.NetProject.Models
         public string ShortDescription { get; set; }
         public double Rating { get; set; }
 
+        public int MaxStock { get; set; }
         public virtual List<OrderDetails> OrderDetails { get; set; }
     }
 }

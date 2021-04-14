@@ -1,11 +1,5 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-    //var hi =(int) ViewData["1"];
-    //var hi2 = (int) ViewData["2"];
-    //var hi3 = (string)ViewData["3"];
-    ViewBag.Title = "ShoppingCart";
+﻿@{
+    ViewBag.Title = "Checkout";
     double subtotal = 0;
     double sum = 0;
     int count = 0;
@@ -13,9 +7,6 @@
     IEnumerable<CartDetails> shoppingcart = (IEnumerable<CartDetails>)ViewData["4"];
 }
 
-@*<h2>@hi</h2>
-    <h2>@hi2</h2>
-    <h3>@hi3</h3>*@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -34,16 +25,16 @@
             </tr>
         </thead>
         <tbody>
-            @if (shoppingcart==null)
-             {
+            @if (shoppingcart == null)
+            {
                 <tr>
                     <td style="font-size:20px">There are no items in the cart </td>
                 </tr>
-             }
+            }
             else
             {
                 @foreach (var item in shoppingcart)
-                    { 
+                {
                     <tr>
                         <td>@{count++;}@count</td>
                         <td>
@@ -61,7 +52,7 @@
                                         <button type="submit" class="btn btn-success">Add</button>
                                     </div>
                                 </form>
-                                    <input style="width:40px" asp-for="@item.Quantity" name="quantity" value="@item.Quantity" />
+                                <input style="width:40px" asp-for="@item.Quantity" name="quantity" value="@item.Quantity" />
 
                                 <form enctype="multipart/form-data" action="/cart/removeitemfromcart" method="POST">
                                     <div>
@@ -78,14 +69,14 @@
                             <form enctype="multipart/form-data" action="/cart/removeitemfromcart" method="POST">
                                 <div>
                                     <input type="hidden" name="cartId" value="@item.CartId" />
-                                    <input type="hidden" name="quantity" value="@item.Quantity"/>
+                                    <input type="hidden" name="quantity" value=1 />
                                     <input type="hidden" name="productId" value=@item.ProductId>
                                     <button type="submit" class="btn btn-danger">Delete Item</button>
                                 </div>
                             </form>
-                         </td>
+                        </td>
                     </tr>
-                    }
+                }
             }
         </tbody>
         <tfoot>
