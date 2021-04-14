@@ -79,6 +79,7 @@ namespace T11ASP.NetProject.Controllers
 
         public void RemoveItemFromCart(int productId,int quantity)
         {
+            Console.WriteLine("hi");
         }
     }
 }
