@@ -1,0 +1,96 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - T11Consulting</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
+    <link rel="stylesheet" href="/css/HomePage.css" />
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm  navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img alt="T11 Consulting" src="@Url.Content("~/img/t11.png")" style="height: 120px;display: inline-block;margin-top: -50px;margin-bottom: -40px" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" style="margin-top: -50px;margin-bottom:-40px">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Welcome @ViewData["userLoggedIn"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="">Products List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="">Products By Category</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="">Search</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Your Cart</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <a class="nav-link text-dark btn btn-lg btn-floating" style="margin-top: -50px; margin-bottom : -40px" asp-area="" asp-controller="Home" asp-action="Privacy">
+
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    Cart
+                </a>
+                
+
+            </div>
+</nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted fixed-bottom">
+        <div class="container text-md-left text-dark p-0 ">
+            © 2021 T11 Consulting.
+            <a class="text-dark" href="#!">All Rights Reserved</a>
+        </div>
+
+        <div class="container text-md-right text-dark p-0" style="margin-top: -60px">
+            Follow us on
+            <a class="btn btn-lg btn-outline-light " style="color: #3b5998;" href="#!" role="button">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+            </a>
+            <a class="btn btn-lg btn-outline-light " style="color: #55acee;" href="#!" role="button">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="btn btn-lg btn-outline-light " style="color: #ac2bac;" href="#!" role="button">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+            </a>
+            <a class="btn btn-lg btn-outline-light" style="color: #ed302f;" href="#!" role="button">
+                <i class="fa fa-youtube-play" aria-hidden="true"></i>
+            </a>
+
+        </div>
+
+
+
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+

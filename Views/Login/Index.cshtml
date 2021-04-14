@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewData["Title"] = "Login Page";
+}
+
+<style>
+    #err_msg {
+        color: red;
+        font-weight: bold;
+        padding: 10px;
+    }
+
+    .stars-inner {
+        width: 30%;
+        margin-top: 150px;
+        margin-bottom: 150px;
+        margin-right: 150px;
+        margin-left: 400px;
+    }
+</style>
+
+<p></p>
+
+<form id="form" action="/login/Authenticate" method="POST">
+
+    <table align="center" class="stars-inner">
+        <tr>
+            <td>
+                Username:
+            </td>
+            <td>
+                <input id="username" name="username" class="form-control" value="@ViewData["username"]"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Password:
+            </td>
+            <td>
+                <input id="password" name="password" type="password" class="form-control" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right">
+                <input id="submitbutton" type="submit" class="btn btn-success" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <div id="err_msg">@ViewData["errMsg"]</div>
+            </td>
+        </tr>
+
+    </table>
+</form>

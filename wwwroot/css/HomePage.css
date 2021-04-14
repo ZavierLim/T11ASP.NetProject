@@ -1,0 +1,73 @@
+﻿body {
+}
+
+.blur {
+    opacity: 0.5;
+}
+
+    .blur:hover btn {
+        opacity: 1.1;
+    }
+
+.img_container {
+    position: relative;
+}
+
+.badge_container {
+    position: absolute;
+    top: 25%;
+    left: 25%;
+}
+
+.imageThumbnail {
+    height: 150px;
+    width: 150px;
+    left:25%;
+    top:5%;
+}
+
+.img_description {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.a {
+}
+
+    .a:hover .img_description {
+        visibility: visible;
+        opacity: 1;
+    }
+
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    margin-bottom: 50px;
+    border-radius: 5px;
+    transition: 0.3s;
+    height:425px;
+}
+
+    /* On mouse-over, add a deeper shadow */
+    .card:hover {
+        box-shadow: 0 40px 16px 0 rgba(0,0,0,0.2);
+        transform: scale(1.05);
+        transition: all 0.3s ease;
+    }
+
+/* Add some padding inside the card container */
+.container {
+    padding: 20px 16px;
+}
+
+.button1 {
+    position: absolute;
+    top: 80%;
+    left: 20%;
+}
+
+.button2 {
+    position: absolute;
+    top: 80%;
+}
+

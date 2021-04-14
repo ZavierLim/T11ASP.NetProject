@@ -1,0 +1,363 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<link href="@Url.Content("~/wwwroot/lib/bootstrap/dist/css/bootstrap.css")" rel="stylesheet">
+
+
+<script src="@Url.Content("~/wwwroot/lib/bootstrap/dist/js/bootstrap.js")"></script>
+
+
+<div class="text-center">
+    <h1 class="display-4">Purchase History Page</h1>
+</div>
+
+@*<div>
+        <div class="caption">
+            <h3>Purchase Record1</h3>
+            <p>Datetime:2021-3-8 12:33:14</p>
+        </div>
+        <table class="table table-hover" style="width: 97%;float: right;">
+            <thead>
+                <tr>
+                    <th style="width:45%">Product</th>
+                    <th>Date of Purchase</th>
+                    <th style="width:5%">Qty</th>
+                    <th style="width:5%">Total</th>
+                    <th>Activation Code</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/photoshop.png" style="width:75%;height:75%" /></div>
+                        <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Photoshop</p><p>Adobe</p></div>
+                    </td>
+                    <td><div>20200308</div></td>
+                    <td><div>10.0</div></td>
+                    <td><div>1</div></td>
+                    <td><div>Z45h78160</div></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/illustrator.png" style="width:75%;height:75%" /></div>
+                        <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Illustrator</p><p>Adobe</p></div>
+                    </td>
+                    <td><div>20200308</div></td>
+                    <td><div>10.0</div></td>
+                    <td><div>2</div></td>
+                    <td><div>Z45h78160</div></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/indesign.png" style="width:75%;height:75%" /></div>
+                        <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Indesign</p><p>Adobe</p></div>
+                    </td>
+                    <td><div>20200308</div></td>
+                    <td><div>10.0</div></td>
+                    <td><div>1</div></td>
+                    <td><div>Z45h78160</div></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/dreamwaver.png" style="width:75%;height:75%" /></div>
+                        <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Dreamwaver</p><p>Adobe</p></div>
+                    </td>
+                    <td><div>20200308</div></td>
+                    <td><div>10.0</div></td>
+                    <td><div>3</div></td>
+                    <td><div>Z45h78160</div></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>*@
+
+<div class="container-fluid">
+    <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                    <h3>Purchase Record1</h3>
+                    <p>Datetime:2021-3-8 12:33:14</p>
+                </a>
+            </div>
+            <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">
+                <div class="accordion-inner">
+                    <table class="table table-hover" style="width: 97%;float: right;">
+                        <thead>
+                            <tr>
+                                <th style="width:45%">Product</th>
+                                <th>Date of Purchase</th>
+                                <th style="width:5%">Qty</th>
+                                <th style="width:5%">Total</th>
+                                <th>Activation Code</th>
+                                <th>Review</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/photoshop.png" style="width:75%;height:75%" /></div>
+                                    <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Photoshop</p><p>Adobe</p></div>
+                                </td>
+                                <td><div>20200308</div></td>
+                                <td><div>10.0</div></td>
+                                <td><div>1</div></td>
+                                <td><div>Z45h78160</div></td>
+                                <td><button class="btn btn-info">Review</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/illustrator.png" style="width:75%;height:75%" /></div>
+                                    <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Illustrator</p><p>Adobe</p></div>
+                                </td>
+                                <td><div>20200308</div></td>
+                                <td><div>10.0</div></td>
+                                <td><div>2</div></td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            All Activation Codes
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a href="#">Z45h78160</a></li>
+                                            <li><a href="#">Z45h78161</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td><button class="btn btn-info">Review</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/indesign.png" style="width:75%;height:75%" /></div>
+                                    <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Indesign</p><p>Adobe</p></div>
+                                </td>
+                                <td><div>20200308</div></td>
+                                <td><div>10.0</div></td>
+                                <td><div>1</div></td>
+                                <td><div>Z45h78160</div></td>
+                                <td><button class="btn btn-info">Review</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/dreamwaver.png" style="width:75%;height:75%" /></div>
+                                    <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Dreamwaver</p><p>Adobe</p></div>
+                                </td>
+                                <td><div>20200308</div></td>
+                                <td><div>10.0</div></td>
+                                <td><div>3</div></td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            All Activation Codes
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a href="#">Z45h78160</a></li>
+                                            <li><a href="#">Z45h78161</a></li>
+                                            <li><a href="#">Z45h78162</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td><button class="btn btn-info">Review</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                    <h3>Purchase Record2</h3>
+                    <p>Datetime:2021-3-28 12:33:14</p>
+                </a>
+            </div>
+            <div id="collapseTwo" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <table class="table table-hover" style="width: 97%;float: right;">
+                        <thead>
+                            <tr>
+                                <th style="width:45%">Product</th>
+                                <th>Date of Purchase</th>
+                                <th style="width:5%">Qty</th>
+                                <th style="width:5%">Total</th>
+                                <th>Activation Code</th>
+                                <th>Review</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/photoshop.png" style="width:75%;height:75%" /></div>
+                                    <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Photoshop</p><p>Adobe</p></div>
+                                </td>
+                                <td><div>20200308</div></td>
+                                <td><div>10.0</div></td>
+                                <td><div>1</div></td>
+                                <td><div>Z45h78160</div></td>
+                                <td><button class="btn btn-info">Review</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/illustrator.png" style="width:75%;height:75%" /></div>
+                                    <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Illustrator</p><p>Adobe</p></div>
+                                </td>
+                                <td><div>20200308</div></td>
+                                <td><div>10.0</div></td>
+                                <td><div>2</div></td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            All Activation Codes
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a href="#">Z45h78160</a></li>
+                                            <li><a href="#">Z45h78161</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td><button class="btn btn-info">Review</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/indesign.png" style="width:75%;height:75%" /></div>
+                                    <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Indesign</p><p>Adobe</p></div>
+                                </td>
+                                <td><div>20200308</div></td>
+                                <td><div>10.0</div></td>
+                                <td><div>1</div></td>
+                                <td><div>Z45h78160</div></td>
+                                <td><button class="btn btn-info">Review</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/dreamwaver.png" style="width:75%;height:75%" /></div>
+                                    <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Dreamwaver</p><p>Adobe</p></div>
+                                </td>
+                                <td><div>20200308</div></td>
+                                <td><div>10.0</div></td>
+                                <td><div>3</div></td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            All Activation Codes
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a href="#">Z45h78160</a></li>
+                                            <li><a href="#">Z45h78161</a></li>
+                                            <li><a href="#">Z45h78162</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td><button class="btn btn-info">Review</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                    <h3>Purchase Record3</h3>
+                    <p>Datetime:2021-3-18 12:33:14</p>
+                </a>
+            </div>
+            <div id="collapseThree" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <table class="table table-hover" style="width: 97%;float: right;">
+                        <thead>
+                            <tr>
+                                <th style="width:45%">Product</th>
+                                <th>Date of Purchase</th>
+                                <th style="width:5%">Qty</th>
+                                <th style="width:5%">Total</th>
+                                <th>Activation Code</th>
+                                <th>Review</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/photoshop.png" style="width:75%;height:75%" /></div>
+                                    <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Photoshop</p><p>Adobe</p></div>
+                                </td>
+                                <td><div>20200308</div></td>
+                                <td><div>10.0</div></td>
+                                <td><div>1</div></td>
+                                <td><div>Z45h78160</div></td>
+                                <td><button class="btn btn-info">Review</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/illustrator.png" style="width:75%;height:75%" /></div>
+                                    <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Illustrator</p><p>Adobe</p></div>
+                                </td>
+                                <td><div>20200308</div></td>
+                                <td><div>10.0</div></td>
+                                <td><div>2</div></td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            All Activation Codes
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a href="#">Z45h78160</a></li>
+                                            <li><a href="#">Z45h78161</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td><button class="btn btn-info">Review</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/indesign.png" style="width:75%;height:75%" /></div>
+                                    <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Indesign</p><p>Adobe</p></div>
+                                </td>
+                                <td><div>20200308</div></td>
+                                <td><div>10.0</div></td>
+                                <td><div>1</div></td>
+                                <td><div>Z45h78160</div></td>
+                                <td><button class="btn btn-info">Review</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="~/img/dreamwaver.png" style="width:75%;height:75%" /></div>
+                                    <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Dreamwaver</p><p>Adobe</p></div>
+                                </td>
+                                <td><div>20200308</div></td>
+                                <td><div>10.0</div></td>
+                                <td><div>3</div></td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            All Activation Codes
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a href="#">Z45h78160</a></li>
+                                            <li><a href="#">Z45h78161</a></li>
+                                            <li><a href="#">Z45h78162</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td><button class="btn btn-info">Review</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewData["Title"] = "Detail";
+    ProductList product = (ProductList)ViewData["Product"];
+    string prodRating = (string)ViewData["ProductRating"];
+}
+
+@section scripts{
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Font Awesome Script for star rating-->
+    <script src="https://use.fontawesome.com/c94815eee1.js"></script>
+}
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="/css/ProductDetail.css">
+
+
+<h1>Product Details</h1>
+<form enctype="multipart/form-data" asp-controller="Cart" asp-action="addToCart" method="POST">
+    <div class="container bootdey">
+        <div class="col-md-12">
+            <section class="panel">
+                <div class="panel-body">
+                    <div class="col-md-5">
+                        <div class="pro-img-details">
+                            <input hidden name="productId" value="@product.ProductId"/>
+                            <img src="@product.ImgUrl" alt="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="pro-d-title">
+                            <a href="#" class="">
+                                @product.ProductName
+                            </a>
+                        </h3>
+                        <!-- Rating star 60%=3 star. 2.5 star= 50%-->
+                        @product.Rating &nbsp; <div class="stars-outer stars-large">
+                            <div class="stars-inner" style="width:@(((product.Rating)*20)+"%")"> </div>
+                        </div>
+                        <span class="body-textStyle">&nbsp;(5 ratings)</span>
+
+                        <!-- Price -->
+                        <div class="product_meta">
+                            <div class="m-bot15"> <strong>SGD</strong><span class="pro-price">@product.UnitPrice</span></div>
+                            <p></p>
+                            <p>
+                                @product.Description
+                            </p>
+
+                            <!--<span class="tagged_as"><strong>Tags:</strong> <a rel="tag" href="#">mens</a>, <a rel="tag" href="#">womens</a>.</span>-->
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input name="Quantity" type="number" placeholder="1" min="1" value="1" class="form-control" style="width: 120px">
+                        </div>
+                        <p>
+                            <button class="btn btn-round btn-outline-primary" type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                            <button class="btn btn-round btn-primary" type="button" formaction=""> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>
+                        </p>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Comment section-->
+            <section class="panel">
+                <div class="panel-body">
+                    <span class="pro-d-head form-group">Product Reviews (3)</span>
+                    <!-- Loop should start here-->
+                    <hr>
+                    <i class="fa fa-user-circle"></i>&nbsp; <a class="comment-user: 500;">Harrison</a>
+                    <br>
+                    <span class="comment-date"> 10/4/2021 11:50 am </span>
+                    <br>
+                    <div class="stars-outer"><div class="stars-inner" style="width: 95%"></div></div>
+                    <p class="p">
+                        Great product that turns everyone into models. Highly recommend!
+                    </p>
+                </div>
+            </section>
+        </div>
+    </div>
+</form>

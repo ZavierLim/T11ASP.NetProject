@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ProductList>
+
+@{
+    ViewData["Title"] = "Home Page";
+    IEnumerable<ProductList> products = (IEnumerable<ProductList>)ViewData["products"];
+    string sessionId = (string)ViewData["session"];
+}
+
+<form method="post" asp-controller="home" asp-action="index">
+    <div class="input-group" style="margin-bottom:30px">
+        <input type="search" class="form-control" value="@ViewData["searchedterm"]" name="searchterm"/>
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+</form>
+<h2>@sessionId</h2>
+
+    <div class="card-deck col-sm-12">
+        @foreach (var m in products)
+        {
+            <form class="col-sm-4" enctype="multipart/form-data" asp-controller="AddtoCart" asp-action="addItemFromMain" method="post">
+                <div class="card" style="min-width:20rem;max-width:35.5%;margin-bottom:20px">
+
+                    <div class="a">
+                        <img src="@m.ImgUrl" class="card-img-top imageThumbnail img_container" alt="...">
+                        <div class="badge_container">
+                            <a asp-controller="ProductDetails" asp-action="index" asp-route-id="@m.ProductId"
+                               class="btn btn-success img_description" id="btn1"> View» </a>
+                            <button type="submit" class="btn btn-primary img_description" id="btn2">Add Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="card-title">
+                            <input hidden name="ProductId" asp-for="@m.ProductId" />
+                            <label name="mobileName" asp-for="@m.ProductName" id="mobile" style="color:darkred">@m.ProductName</label>
+                        </div>
+                        <p class="card-text">@m.ShortDescription</p>
+                    </div>
+                    <div class="card-footer">
+                        <h1 class="align-middle">$@m.UnitPrice</h1>
+                    </div>
+                </div>
+            </form>
+        }
+    </div>
+
+    <script>
+        window.onload = function () {
+            let elemlist = document.querySelectorAll(".card-img-top");
+            let btnlist = document.querySelectorAll("btn");
+            for (let i = 0; i < elemlist.length; i++) {
+                elemlist[i].addEventListener("mouseover", mouseOver.bind(this));
+                elemlist[i].addEventListener("mouseleave", mouseExit.bind(this));
+            }
+            console.log(elemlist.length)
+
+
+            function mouseOver(event) {
+                let elem = event.currentTarget;
+                console.log(elem);
+                elem.classList.add("blur");
+
+            };
+
+            function mouseExit(event) {
+                let elem = event.currentTarget;
+                elem.classList.remove("blur");
+
+            };
+
+        }
+    </script>
