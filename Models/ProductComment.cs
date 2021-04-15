@@ -10,7 +10,7 @@ namespace T11ASP.NetProject.Models
     {
         public int ProductId { get; set; }
         public string CustomerId { get; set; }
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
 
         [ForeignKey("ProductId")]
         public virtual ProductList Product { get; set; }

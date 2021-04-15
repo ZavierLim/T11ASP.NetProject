@@ -28,7 +28,6 @@
                 <th>Item</th>
                 <th>Product</th>
                 <th>Price</th>
-                <th>Item In stock</th>
                 <th>Quantity</th>
                 <th>Item Total</th>
             </tr>
@@ -51,26 +50,25 @@
                         </td>
                         <td>@item.ProductList.ProductName</td>
                         <td>@item.ProductList.UnitPrice</td>
-                        <td>@item.ProductList.MaxStock</td>
                         <td>
                             <div>
-                                <form enctype="multipart/form-data" action="/cart/addtocart" method="POST">
-                                    <div>
+                                <div style="display:inline-block">
+                                    <form enctype="multipart/form-data" action="/cart/addtocart" method="POST">
                                         <input type="hidden" name="quantity" value=1 />
                                         <input type="hidden" name="productId" value=@item.ProductId>
-                                        <button type="submit" class="btn btn-success">Add</button>
+                                        <button style="display:inline-block" type="submit" class="btn btn-success">Add</button>
+                                    </form>
+                                </div>
+                                    <input style="width:40px;display:inline-block" asp-for="@item.Quantity" name="quantity" value="@item.Quantity" />
+                                    <div style="display:inline-block">
+                                        <form enctype="multipart/form-data" action="/cart/removeitemfromcart" method="POST">
+                                            <input type="hidden" name="cartId" value="@item.CartId" />
+                                            <input type="hidden" name="quantity" value=1 />
+                                            <input type="hidden" name="productId" value=@item.ProductId>
+                                            <button type="submit" class="btn btn-success">Minus</button>
+                                        </form>
                                     </div>
-                                </form>
-                                    <input style="width:40px" asp-for="@item.Quantity" name="quantity" value="@item.Quantity" />
 
-                                <form enctype="multipart/form-data" action="/cart/removeitemfromcart" method="POST">
-                                    <div>
-                                        <input type="hidden" name="cartId" value="@item.CartId" />
-                                        <input type="hidden" name="quantity" value=1 />
-                                        <input type="hidden" name="productId" value=@item.ProductId>
-                                        <button type="submit" class="btn btn-success">Minus</button>
-                                    </div>
-                                </form>
                             </div>
                         </td>
                         <td>@{subtotal = item.Quantity * item.ProductList.UnitPrice;}@subtotal</td>
@@ -111,7 +109,7 @@
     <div id="footer" width="100%" height="60px">
         <button type="button" id="btnprint" class="btn btn-primary">Print</button>
         <a asp-controller="Home" asp-action="index" class="btn btn-success">Continue Shopping</a>
-        <button type="button" id="btnprint" class="btn btn-warning">Place Order</button>
+        <a asp-controller="Checkout" asp-action="index" class="btn btn-warning">Proceed to  checkout</a>
 
 
     </div>

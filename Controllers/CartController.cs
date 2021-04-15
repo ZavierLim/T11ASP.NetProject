@@ -21,9 +21,9 @@ namespace T11ASP.NetProject.Controllers
         }
         public IActionResult Index(int productId,int quantity)
         {
-            ViewData["1"] = productId;
-            ViewData["2"] = quantity;
-            ViewData["3"] = context.ProductList.FirstOrDefault(c => c.ProductId == 1).Description.ToString();
+            //ViewData["1"] = productId;
+            //ViewData["2"] = quantity;
+            //ViewData["3"] = context.ProductList.FirstOrDefault(c => c.ProductId == 1).Description.ToString();
             var sessionname = HttpContext.Session.GetString("sessionId");
             if(sessionname!=null)
             {
@@ -34,7 +34,7 @@ namespace T11ASP.NetProject.Controllers
             return View();
         }
 
-        public IActionResult AddToCart(int productId,int quantity)
+        public IActionResult AddToCart(int productId,int quantity, string returnUrl)
         {
             //retrieve the cartId from DB;
             var sessionname = HttpContext.Session.GetString("sessionId");
@@ -71,9 +71,9 @@ namespace T11ASP.NetProject.Controllers
             {
                 itemInCart.Quantity += quantity;
             }
-            context.ProductList.Find(productId).MaxStock -= quantity;
+
             context.SaveChanges();
-            return RedirectToAction("index","cart");
+            return Redirect(HttpContext.Request.Headers["Referer"]);
         }
 
         public IActionResult RemoveItemFromCart(int productId,string cartId,int quantity)
@@ -89,8 +89,8 @@ namespace T11ASP.NetProject.Controllers
                 {
                     context.CartDetails.Remove(customercart);
                 }
-                context.ProductList.Find(productId).MaxStock += quantity;
-                context.SaveChangesAsync();
+
+                context.SaveChanges();
             }
 
             return RedirectToAction("index", "cart");

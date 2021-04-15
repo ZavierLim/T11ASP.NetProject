@@ -28,6 +28,7 @@ namespace T11ASP.NetProject.Controllers
             ViewData["products"] = allProducts;
             ViewData["session"] = HttpContext.Session.GetString("sessionId");
 
+
             return View(allProducts);
         }
 
