@@ -28,29 +28,21 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="">Products List</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="">Products By Category</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="">Search</a>
-                        </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Your Cart</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="OrderHistory" asp-action="Index">Order History</a>
                         </li>
                     </ul>
                 </div>
 
-                <a class="nav-link text-dark btn btn-lg btn-floating" style="margin-top: -50px; margin-bottom : -40px" asp-area="" asp-controller="Home" asp-action="Privacy">
+                <a class="nav-link text-dark btn btn-lg btn-floating" style="margin-top: -50px; margin-bottom : -40px" asp-area="" asp-controller="Cart" asp-action="Index">
 
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                     Cart
                 </a>
-                
+                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Register">Register</a>
+
 
             </div>
 </nav>

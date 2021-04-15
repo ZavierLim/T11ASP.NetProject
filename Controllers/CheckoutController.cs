@@ -21,10 +21,68 @@ namespace T11ASP.NetProject.Controllers
             if (currentsession != null)
             {
                 var currentcustomer = context.Customer.FirstOrDefault(x => x.CustomerId == currentsession).CustomerId;
-                ViewData["1"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomer).ToList();
+                ViewData["checkoutitems"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomer).ToList();
 
             }
             return View();
+        }
+
+        public IActionResult OrderConfirmed()
+        {
+            var currentsession = HttpContext.Session.GetString("sessionId");
+            var currentcart = context.Cart.FirstOrDefault(x=>x.CustomerId==currentsession);
+
+            if (currentsession!=null && currentcart!=null)
+            {
+                var currentcartId = currentcart.CartId;
+                var allitemsincart = context.CartDetails.Where(x => x.CartId == currentcartId).ToList();
+                Orders orderconfirmed = new Orders
+                {
+                    OrderId = Guid.NewGuid().ToString(),
+                    DateofPurchase = DateTime.Now,
+                    CustomerId = currentsession,
+                };
+
+                context.Orders.Add(orderconfirmed);
+                context.SaveChanges();
+
+                //for each item in the cart, add the item to orderdetails
+                foreach (var cartitem in allitemsincart)
+                {
+                    OrderDetails orderitems = new OrderDetails
+                    {
+                        OrderId = orderconfirmed.OrderId,
+                        ProductId = cartitem.ProductId,
+                        Quantity = cartitem.Quantity,
+                        UnitPrice = cartitem.ProductList.UnitPrice
+                    };
+                    context.OrderDetails.Add(orderitems);
+                    context.SaveChanges();
+
+                    //for each quantity in the item, generate the activation code
+                    for (int i=0;i<cartitem.Quantity;i++)
+                    {
+                        ActivationCode ActivationCodePerItem = new ActivationCode
+                        {
+                            OrderId = orderconfirmed.OrderId,
+                            ProductId = cartitem.ProductId,
+                            ActivationKey = Guid.NewGuid().ToString()
+                        };
+                        context.ActivationCodes.Add(ActivationCodePerItem);
+                        context.SaveChanges();
+                    }
+                }
+
+
+
+                var CartIdToDelete = context.Cart.Find(currentcartId);
+                context.Cart.Remove(CartIdToDelete);
+                context.SaveChanges();
+                ViewData["orderId"] = orderconfirmed.OrderId;
+            }
+
+            return View();
+
         }
     }
 }

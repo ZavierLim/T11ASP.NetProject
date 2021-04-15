@@ -8,7 +8,7 @@ namespace T11ASP.NetProject.Models
 {
     public class OrderDetails
     {
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         public int ProductId { get; set; }
 
         [ForeignKey("OrderId")]
@@ -19,6 +19,8 @@ namespace T11ASP.NetProject.Models
         public int Quantity { get; set; }
 
         public double UnitPrice { get; set; }
+
+        public virtual List<ActivationCode> ActivationCodes { get; set; }
 
         //ProductListProductId = table.Column<int>(type: "int", nullable: true),
         //ordersOrderId = table.Column<int>(type: "int", nullable: true)

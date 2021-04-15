@@ -3,39 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using T11ASP.NetProject.Models;
 
 namespace T11ASP.NetProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210414145748_removemaxstock")]
+    partial class removemaxstock
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("T11ASP.NetProject.Models.ActivationCode", b =>
-                {
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ActivationKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("OrderId", "ProductId", "ActivationKey");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ActivationCodes");
-                });
 
             modelBuilder.Entity("T11ASP.NetProject.Models.Cart", b =>
                 {
@@ -100,8 +84,8 @@ namespace T11ASP.NetProject.Migrations
 
             modelBuilder.Entity("T11ASP.NetProject.Models.OrderDetails", b =>
                 {
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -121,8 +105,10 @@ namespace T11ASP.NetProject.Migrations
 
             modelBuilder.Entity("T11ASP.NetProject.Models.Orders", b =>
                 {
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(450)");
@@ -145,8 +131,8 @@ namespace T11ASP.NetProject.Migrations
                     b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
@@ -255,25 +241,6 @@ namespace T11ASP.NetProject.Migrations
                         });
                 });
 
-            modelBuilder.Entity("T11ASP.NetProject.Models.ActivationCode", b =>
-                {
-                    b.HasOne("T11ASP.NetProject.Models.ProductList", "ProductList")
-                        .WithMany("ActivationCodes")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("T11ASP.NetProject.Models.OrderDetails", "OrderDetails")
-                        .WithMany("ActivationCodes")
-                        .HasForeignKey("OrderId", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OrderDetails");
-
-                    b.Navigation("ProductList");
-                });
-
             modelBuilder.Entity("T11ASP.NetProject.Models.Cart", b =>
                 {
                     b.HasOne("T11ASP.NetProject.Models.Customer", "Customer")
@@ -324,7 +291,7 @@ namespace T11ASP.NetProject.Migrations
             modelBuilder.Entity("T11ASP.NetProject.Models.Orders", b =>
                 {
                     b.HasOne("T11ASP.NetProject.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("CustomerId");
 
                     b.Navigation("Customer");
@@ -360,11 +327,8 @@ namespace T11ASP.NetProject.Migrations
             modelBuilder.Entity("T11ASP.NetProject.Models.Customer", b =>
                 {
                     b.Navigation("Cart");
-                });
 
-            modelBuilder.Entity("T11ASP.NetProject.Models.OrderDetails", b =>
-                {
-                    b.Navigation("ActivationCodes");
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("T11ASP.NetProject.Models.Orders", b =>
@@ -374,8 +338,6 @@ namespace T11ASP.NetProject.Migrations
 
             modelBuilder.Entity("T11ASP.NetProject.Models.ProductList", b =>
                 {
-                    b.Navigation("ActivationCodes");
-
                     b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
