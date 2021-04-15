@@ -7,7 +7,7 @@
     <title>@ViewData["Title"] - T11Consulting</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/HomePage.css" />
 
 </head>
@@ -23,15 +23,18 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" style="margin-top: -50px;margin-bottom:-40px">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Welcome @ViewData["userLoggedIn"]</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Welcome @TempData["username"]</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="">Products List</a>
                         </li>
+                        @if (ViewData["session"] != null)
+                        {
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="OrderHistory" asp-action="Index">Order History</a>
+                            </li>
+                        }
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="OrderHistory" asp-action="Index">Order History</a>
-                        </li>
                     </ul>
                 </div>
 
@@ -40,12 +43,21 @@
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                     Cart
                 </a>
-                <a class="nav-link text-dark" style="margin-top: -10px" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
-                <a class="nav-link text-dark" style="margin-top: -10px" asp-area="" asp-controller="Login" asp-action="Register">Register</a>
+                @if (ViewData["session"] == null)
+                {<a class="nav-link text-dark" style="margin-top: -10px" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                    <a class="nav-link text-dark" style="margin-top: -10px" asp-area="" asp-controller="Login" asp-action="Register">Register</a>
+                }
+                else
+                {
+                    
+                    
+                    
+                    <a class="nav-link text-dark" style="margin-top: -10px" asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
+                }
 
 
             </div>
-</nav>
+        </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
