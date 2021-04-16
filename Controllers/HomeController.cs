@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -43,14 +44,25 @@ namespace T11ASP.NetProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string searchterm)
+        public async Task <IActionResult> Index(string searchterm)
         {
             var searchedProducts = context.ProductList.Where(e => e.ProductName.Contains(searchterm) || e.ShortDescription.Contains(searchterm));
-            //var searchedProducts = context.Search(searchterm);
+            
             ViewData["products"] = searchedProducts;
             ViewData["searchedterm"] = searchterm;
             ViewData["session"] = HttpContext.Session.GetString("sessionId");
-            return View();
+
+            if (string.IsNullOrEmpty(searchterm))
+            {
+                var allProducts = context.ProductList.ToList();
+                ViewData["products"] = allProducts;
+                return View(allProducts);
+            }
+            
+            
+            //var searchedProducts = context.Search(searchterm);
+            
+            return View(await searchedProducts.ToListAsync());
         }
 
         public IActionResult Privacy()
