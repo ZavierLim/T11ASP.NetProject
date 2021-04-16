@@ -19,18 +19,28 @@ namespace T11ASP.NetProject.Controllers
         {
             this.context = context;
         }
-        public IActionResult Index(int productId,int quantity)
+        public IActionResult Index()
         {
-            //ViewData["1"] = productId;
-            //ViewData["2"] = quantity;
-            //ViewData["3"] = context.ProductList.FirstOrDefault(c => c.ProductId == 1).Description.ToString();
             var sessionname = HttpContext.Session.GetString("sessionId");
+            ViewData["session"] = sessionname;
             if(sessionname!=null)
             {
                 var currentcustomer = context.Customer.FirstOrDefault(x => x.CustomerId == sessionname).CustomerId;
                 ViewData["4"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomer).ToList();
 
             }
+
+            var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
+            var numberofitems = cartexists.Sum(x => x.Quantity);
+            if (numberofitems < 1)
+            {
+                ViewData["numberofproductsincart"] = null;
+            }
+            else
+            {
+                ViewData["numberofproductsincart"] = numberofitems;
+            }
+
             return View();
         }
 

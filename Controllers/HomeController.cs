@@ -27,6 +27,16 @@ namespace T11ASP.NetProject.Controllers
             var allProducts = context.ProductList.ToList();
             ViewData["products"] = allProducts;
             ViewData["session"] = HttpContext.Session.GetString("sessionId");
+            var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
+            var numberofitems= cartexists.Sum(x => x.Quantity);
+            if (numberofitems<1)
+            {
+                ViewData["numberofproductsincart"] = null;
+            }
+            else
+            {
+                ViewData["numberofproductsincart"] = numberofitems;
+            }
 
 
             return View(allProducts);
@@ -39,6 +49,7 @@ namespace T11ASP.NetProject.Controllers
             //var searchedProducts = context.Search(searchterm);
             ViewData["products"] = searchedProducts;
             ViewData["searchedterm"] = searchterm;
+            ViewData["session"] = HttpContext.Session.GetString("sessionId");
             return View();
         }
 
