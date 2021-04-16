@@ -28,7 +28,7 @@
             <div class="accordion-group">
                 <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse@(@count)">
-                        <h3>Order Number:@(order.OrderId)</h3>
+                        <h3 name="orderId" value="@order.OrderId">Order Number:@(order.OrderId)</h3>
                         <h3>Status:Completed</h3>
                         <p>Date of Purchase: @order.DateofPurchase</p>
                     </a>

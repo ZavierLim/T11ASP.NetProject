@@ -24,6 +24,18 @@ namespace T11ASP.NetProject.Controllers
                 ViewData["checkoutitems"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomer).ToList();
 
             }
+
+            var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
+            var numberofitems = cartexists.Sum(x => x.Quantity);
+            if (numberofitems < 1)
+            {
+                ViewData["numberofproductsincart"] = null;
+            }
+            else
+            {
+                ViewData["numberofproductsincart"] = numberofitems;
+            }
+
             return View();
         }
 

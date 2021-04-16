@@ -45,12 +45,16 @@
     <script>
         window.onload = function () {
             let elemlist = document.querySelectorAll(".card-img-top");
-            let btnlist = document.querySelectorAll("btn");
+            let btnlist = document.querySelectorAll("#btn2");
             for (let i = 0; i < elemlist.length; i++) {
                 elemlist[i].addEventListener("mouseover", mouseOver.bind(this));
                 elemlist[i].addEventListener("mouseleave", mouseExit.bind(this));
             }
+            for (let i = 0; i < btnlist.length; i++) {
+                btnlist[i].addEventListener("click", dialogbox.bind(this));
+            }
             console.log(elemlist.length)
+            console.log(btnlist.length)
 
 
             function mouseOver(event) {
@@ -66,5 +70,12 @@
 
             };
 
+            function dialogbox(event) {
+                let btn = event.currentTarget;
+                console.log(btn);
+                window.alert("item added to cart");
+            }
         }
+
+
     </script>

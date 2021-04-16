@@ -72,6 +72,10 @@ namespace T11ASP.NetProject.Controllers
             context.Customer.Add(CreateCustomer);
             context.SaveChanges();
 
+            HttpContext.Session.SetString("sessionId", CreateCustomer.CustomerId);
+            ViewData["userLoggedIn"] = CreateCustomer.CustomerId;
+
+
             return RedirectToAction("index", "home");
         }
 

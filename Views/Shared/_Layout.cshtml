@@ -1,4 +1,6 @@
-﻿
+﻿@{ 
+    var countofitemsincart = ViewData["numberofproductsincart"];
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,9 +24,13 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" style="margin-top: -50px;margin-bottom:-40px">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Welcome @TempData["username"]</a>
-                        </li>
+                        @if (ViewData["session"] != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Home" asp-action="Index">Welcome @ViewData["session"]</a>
+                            </li>
+
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="">Products List</a>
                         </li>
@@ -37,21 +43,32 @@
 
                     </ul>
                 </div>
+                @if (countofitemsincart==null)
+                {
+                    <a class="nav-link text-dark btn btn-lg btn-floating" style="margin-top: -50px; margin-bottom : -40px" asp-area="" asp-controller="Cart" asp-action="Index">
 
-                <a class="nav-link text-dark btn btn-lg btn-floating" style="margin-top: -50px; margin-bottom : -40px" asp-area="" asp-controller="Cart" asp-action="Index">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        Cart
+                    </a>
+                }
+                else
+                {
+                    <a class="nav-link text-dark btn btn-lg btn-floating" style="margin-top: -50px; margin-bottom : -40px" asp-area="" asp-controller="Cart" asp-action="Index">
 
-                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                    Cart
-                </a>
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        Cart(@countofitemsincart)
+                    </a>
+
+                }
                 @if (ViewData["session"] == null)
                 {<a class="nav-link text-dark" style="margin-top: -10px" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
                     <a class="nav-link text-dark" style="margin-top: -10px" asp-area="" asp-controller="Login" asp-action="Register">Register</a>
                 }
                 else
                 {
-                    
-                    
-                    
+
+
+
                     <a class="nav-link text-dark" style="margin-top: -10px" asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
                 }
 

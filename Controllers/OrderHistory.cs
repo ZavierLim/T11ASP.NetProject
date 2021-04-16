@@ -20,11 +20,24 @@ namespace T11ASP.NetProject.Controllers
         {
             var currentsession = HttpContext.Session.GetString("sessionId");
             var orderid = context.Orders.Where(x => x.CustomerId == currentsession).ToList().OrderByDescending(x=>x.DateofPurchase);
-
+            ViewData["session"] = currentsession;
             if(orderid!=null)
             {
                 ViewData["orders"] = orderid;
             }
+
+
+            var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
+            var numberofitems = cartexists.Sum(x => x.Quantity);
+            if (numberofitems < 1)
+            {
+                ViewData["numberofproductsincart"] = null;
+            }
+            else
+            {
+                ViewData["numberofproductsincart"] = numberofitems;
+            }
+
             return View();
         }
     }
