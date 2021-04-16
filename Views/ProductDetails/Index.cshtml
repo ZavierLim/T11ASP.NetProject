@@ -2,7 +2,9 @@
 @{
     ViewData["Title"] = "Detail";
     ProductList product = (ProductList)ViewData["Product"];
-    string prodRating = (string)ViewData["ProductRating"];
+    // string prodRating = (string)ViewData["ProductRating"];
+    float prodRating = Convert.ToSingle(ViewData["prodRating"]);
+    int numberofProds = (int)ViewData["numberofProds"];
 }
 
 @section scripts{
@@ -40,10 +42,10 @@
                             </a>
                         </h3>
                         <!-- Rating star 60%=3 star. 2.5 star= 50%-->
-                        @product.Rating &nbsp; <div class="stars-outer stars-large">
-                            <div class="stars-inner" style="width:@(((product.Rating)*20)+"%")"> </div>
+                        @prodRating &nbsp; <div class="stars-outer stars-large">
+                            <div class="stars-inner" style="width:@(((prodRating)*20)+"%")"> </div>
                         </div>
-                        <span class="body-textStyle">&nbsp;(5 ratings)</span>
+                        <span class="body-textStyle">&nbsp;(@numberofProds ratings)</span>
 
                         <!-- Price -->
                         <div class="product_meta">

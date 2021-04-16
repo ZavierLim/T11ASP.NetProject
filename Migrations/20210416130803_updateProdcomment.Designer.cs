@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using T11ASP.NetProject.Models;
 
 namespace T11ASP.NetProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210416130803_updateProdcomment")]
+    partial class updateProdcomment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,13 +143,7 @@ namespace T11ASP.NetProject.Migrations
                         {
                             OrderId = "a1",
                             CustomerId = "zavierlim",
-                            DateofPurchase = new DateTime(2021, 4, 16, 21, 20, 56, 231, DateTimeKind.Local).AddTicks(380)
-                        },
-                        new
-                        {
-                            OrderId = "a2",
-                            CustomerId = "zavierlim",
-                            DateofPurchase = new DateTime(2021, 4, 16, 21, 20, 56, 236, DateTimeKind.Local).AddTicks(1630)
+                            DateofPurchase = new DateTime(2021, 4, 16, 21, 8, 2, 494, DateTimeKind.Local).AddTicks(3280)
                         });
                 });
 
@@ -183,20 +179,6 @@ namespace T11ASP.NetProject.Migrations
                             CustomerId = "zavierlim",
                             OrderId = "a1",
                             Rating = 1.0
-                        },
-                        new
-                        {
-                            ProductId = 2,
-                            CustomerId = "zavierlim",
-                            OrderId = "a1",
-                            Rating = 2.0
-                        },
-                        new
-                        {
-                            ProductId = 1,
-                            CustomerId = "zavierlim",
-                            OrderId = "a2",
-                            Rating = 4.0
                         });
                 });
 
@@ -216,6 +198,9 @@ namespace T11ASP.NetProject.Migrations
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
+
                     b.Property<string>("ShortDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -233,6 +218,7 @@ namespace T11ASP.NetProject.Migrations
                             Description = "Adobe Photoshop is a raster graphics and digital art editor developed  for Windows and macOS. The software has become the industry standard not only in raster graphics editing, but in digital art as a whole. Photoshop can edit and compose raster images in multiple layers and supports masks, alpha compositing and several color models including RGB, CMYK, CIELAB, spot color, and duotone. In addition to raster graphics, Photoshop with plug-ins supports editing or rendering text and vector graphics as well as 3D graphics and video. ",
                             ImgUrl = "https://bit.ly/3rX5aOq",
                             ProductName = "Adobe Photoshop",
+                            Rating = 2.5,
                             ShortDescription = "Adobe Photoshop is a raster graphics and digital art editor developed for Windows and macOS",
                             UnitPrice = 150.0
                         },
@@ -242,6 +228,7 @@ namespace T11ASP.NetProject.Migrations
                             Description = "Adobe Illustrator is a vector graphics editor and design program. Adobe Illustrator is the industry standard design app that lets you capture your creative vision with shapes, color, effects, and typography. Work across desktop and mobile devices and quickly create beautiful designs that can go anywhere—print, web and apps, video and animations, and more.",
                             ImgUrl = "https://bit.ly/39R0N14",
                             ProductName = "Adobe Illustrator",
+                            Rating = 3.0,
                             ShortDescription = "Adobe Illustrator is a vector graphics editor and design program",
                             UnitPrice = 180.0
                         },
@@ -251,6 +238,7 @@ namespace T11ASP.NetProject.Migrations
                             Description = "Adobe Lightroom is a creative image organization and image manipulation software developed by Adobe Inc. as part of the Creative Cloud subscription family. Its primary uses include importing/saving, viewing, organizing, tagging, editing, and sharing large numbers of digital images. Lightroom's editing functions include white balance, tone, presence, tone curve, HSL, color grading, detail, lens corrections, and calibration manipulation, as well as transformation, spot removal, red eye correction, graduated filters, radial filters, and adjustment brushing.",
                             ImgUrl = "https://bit.ly/3t02j8u",
                             ProductName = "Adobe Lightroom",
+                            Rating = 1.5,
                             ShortDescription = "Adobe Lightroom is a creative image organization and image manipulation software developed by Adobe Inc. as part of the Creative Cloud subscription family. ",
                             UnitPrice = 240.0
                         },
@@ -260,6 +248,7 @@ namespace T11ASP.NetProject.Migrations
                             Description = "Adobe InDesign is a desktop publishing and typesetting software application produced by Adobe Inc.. It can be used to create works such as posters, flyers, brochures, magazines, newspapers, presentations, books and e-books. InDesign can also publish content suitable for tablet devices in conjunction with Adobe Digital Publishing Suite. Graphic designers and production artists are the principal users, creating and laying out periodical publications, posters, and print media. It also supports export to EPUB and SWF formats to create e-books and digital publications, including digital magazines, and content suitable for consumption on tablet computers. In addition, InDesign supports XML, style sheets, and other coding markup, making it suitable for exporting tagged text content for use in other digital and online formats.",
                             ImgUrl = "https://bit.ly/3mqIk0l ",
                             ProductName = "Adobe InDesign",
+                            Rating = 2.0,
                             ShortDescription = "Adobe InDesign is a desktop publishing and typesetting software application produced by Adobe Inc.",
                             UnitPrice = 88.0
                         },
@@ -269,6 +258,7 @@ namespace T11ASP.NetProject.Migrations
                             Description = "Adobe XD is a vector-based user experience design tool for web apps and mobile apps, developed and published by Adobe Inc. It is available for macOS and Windows, although there are versions for iOS and Android to help preview the result of work directly on mobile devices. Adobe XD supports website wireframing and creating click-through prototypes.",
                             ImgUrl = "https://bit.ly/3fQtf6Q",
                             ProductName = "Adobe XD",
+                            Rating = 3.0,
                             ShortDescription = "Adobe XD is a vector-based user experience design tool for web apps and mobile apps, developed and published by Adobe Inc",
                             UnitPrice = 125.0
                         },
@@ -278,6 +268,7 @@ namespace T11ASP.NetProject.Migrations
                             Description = "Adobe Premiere Pro is a timeline-based video editing software application developed by Adobe Inc. and published as part of the Adobe Creative Cloud licensing program. First launched in 2003, Adobe Premiere Pro is a successor of Adobe Premiere (first launched in 1991). It is geared towards professional video editing, while its sibling, Adobe Premiere Elements, targets the consumer market.",
                             ImgUrl = "https://bit.ly/2Q3XnAW ",
                             ProductName = "Adobe Premier Pro",
+                            Rating = 1.5,
                             ShortDescription = "Adobe Premiere Pro is a timeline-based video editing software application developed by Adobe Inc. and published as part of the Adobe Creative Cloud licensing program. ",
                             UnitPrice = 240.0
                         });

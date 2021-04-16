@@ -16,7 +16,6 @@ namespace T11ASP.NetProject.Models
         public double UnitPrice { get; set; }
         public string ImgUrl { get; set; }
         public string ShortDescription { get; set; }
-        public double Rating { get; set; }
 
         public virtual List<OrderDetails> OrderDetails { get; set; }
 
