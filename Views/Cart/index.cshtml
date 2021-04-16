@@ -32,8 +32,9 @@
 }
 else if(ViewData["numberofproductsincart"] == null)
 {
-    <h4>Hi @ViewData["session"], you do not have any items in your cart.</h4>
+    
     <div style="position:center;margin-left:25%">
+        <h4>Hi @ViewData["session"], you do not have any items in your cart.</h4>
         <a asp-controller="Home" asp-action="index" class="btn btn-primary">Continue Shopping</a>
     </div>
 }
