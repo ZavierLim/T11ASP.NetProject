@@ -23,6 +23,7 @@
 
 @foreach (var order in AllOrders)
 {
+<form>
     <div class="container-fluid">
         <div class="accordion" id="accordion2">
             <div class="accordion-group">
@@ -51,41 +52,41 @@
 
                                 @foreach (var product in order.OrderDetails)
                                 {
-                                <tr>
-                                    <td>
-                                        <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="@product.ProductList.ImgUrl" style="width:75%;height:75%" /></div>
-                                        <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Photoshop</p><p>@product.ProductList.ProductName</p></div>
-                                    </td>
-                                    <td><div>@product.Quantity</div></td>
-                                    <td><div>@{subtotal = product.Quantity * product.ProductList.UnitPrice;}@subtotal</div></td>
-
-                                    @if (product.Quantity == 1)
-                                    {
-                                        @foreach (var activationcode in product.ActivationCodes)
-                                        {
-                                            <td><div>@activationcode.ActivationKey</div></td>
-                                        }
-                                    }
-                                    else
-                                    {
+                                    <tr>
                                         <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                    Activation Codes
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                                    @foreach (var activationcode in product.ActivationCodes)
-                                                    {
-                                                        <li><a href="#">@activationcode.ActivationKey</a></li>
-                                                    }
-
-                                                </ul>
-                                            </div>
+                                            <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="@product.ProductList.ImgUrl" style="width:75%;height:75%" /></div>
+                                            <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Photoshop</p><p>@product.ProductList.ProductName</p></div>
                                         </td>
-                                    }
-                                    <td><button class="btn btn-info">Review</button></td>
-                                </tr>
+                                        <td><div>@product.Quantity</div></td>
+                                        <td><div>@{subtotal = product.Quantity * product.ProductList.UnitPrice;}@subtotal</div></td>
+
+                                        @if (product.Quantity == 1)
+                                        {
+                                            @foreach (var activationcode in product.ActivationCodes)
+                                            {
+                                                <td><div>@activationcode.ActivationKey</div></td>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                        Activation Codes
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                        @foreach (var activationcode in product.ActivationCodes)
+                                                        {
+                                                            <li><a href="#">@activationcode.ActivationKey</a></li>
+                                                        }
+
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        }
+                                        <td><button class="btn btn-info">Review</button></td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
@@ -94,6 +95,8 @@
             </div>
         </div>
     </div>
+
+</form>
 }
 
 

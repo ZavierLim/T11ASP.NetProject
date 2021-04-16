@@ -26,7 +26,7 @@ namespace T11ASP.NetProject.Controllers
             }
 
             var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
-            var numberofitems = cartexists.Sum(x => x.Quantity);
+            var numberofitems = cartexists.Count();
             if (numberofitems < 1)
             {
                 ViewData["numberofproductsincart"] = null;
