@@ -25,7 +25,6 @@ namespace T11ASP.NetProject.Models
                     UnitPrice = 150,
                     ImgUrl = "https://bit.ly/3rX5aOq",
                     ShortDescription = "Adobe Photoshop is a raster graphics and digital art editor developed for Windows and macOS",
-                    Rating = 2.5,
 
                 },
                 new ProductList
@@ -36,7 +35,6 @@ namespace T11ASP.NetProject.Models
                     UnitPrice = 180,
                     ImgUrl = "https://bit.ly/39R0N14",
                     ShortDescription = "Adobe Illustrator is a vector graphics editor and design program",
-                    Rating = 3,
                 },
                 new ProductList
                 {
@@ -46,7 +44,6 @@ namespace T11ASP.NetProject.Models
                     UnitPrice = 240,
                     ImgUrl = "https://bit.ly/3t02j8u",
                     ShortDescription = "Adobe Lightroom is a creative image organization and image manipulation software developed by Adobe Inc. as part of the Creative Cloud subscription family. ",
-                    Rating = 1.5,
                 },
                 new ProductList
                 {
@@ -56,7 +53,6 @@ namespace T11ASP.NetProject.Models
                     UnitPrice = 88,
                     ImgUrl = "https://bit.ly/3mqIk0l ",
                     ShortDescription = "Adobe InDesign is a desktop publishing and typesetting software application produced by Adobe Inc.",
-                    Rating = 2,
                 },
                 new ProductList
                 {
@@ -66,7 +62,6 @@ namespace T11ASP.NetProject.Models
                     UnitPrice = 125,
                     ImgUrl = "https://bit.ly/3fQtf6Q",
                     ShortDescription = "Adobe XD is a vector-based user experience design tool for web apps and mobile apps, developed and published by Adobe Inc",
-                    Rating = 3,
                 },
                 new ProductList
                 {
@@ -76,7 +71,6 @@ namespace T11ASP.NetProject.Models
                     UnitPrice = 240,
                     ImgUrl = "https://bit.ly/2Q3XnAW ",
                     ShortDescription = "Adobe Premiere Pro is a timeline-based video editing software application developed by Adobe Inc. and published as part of the Adobe Creative Cloud licensing program. ",
-                    Rating = 1.5,
                 }
                 );
 
@@ -88,6 +82,51 @@ namespace T11ASP.NetProject.Models
                    Address = "NUS",
                    Password = "123"
                });
+
+            modelBuilder.Entity<Orders>().HasData(
+                new Orders
+                {
+                    OrderId = "a1",
+                    DateofPurchase = DateTime.Now,
+                    CustomerId = "zavierlim",
+                },
+
+                new Orders
+                {
+                    OrderId = "a2",
+                    DateofPurchase = DateTime.Now,
+                    CustomerId = "zavierlim",
+                }
+                );
+
+            modelBuilder.Entity<ProductComment>().HasData(
+                new ProductComment
+                {
+                    ProductId = 1,
+                    CustomerId = "zavierlim",
+                    OrderId = "a1",
+                    Rating = 1.0,
+                },
+
+                new ProductComment
+                {
+                    ProductId = 2,
+                    CustomerId = "zavierlim",
+                    OrderId = "a1",
+                    Rating = 2.0,
+                },
+
+                new ProductComment
+                {
+                ProductId = 1,
+                    CustomerId = "zavierlim",
+                    OrderId = "a2",
+                    Rating = 4.0,
+                }
+
+                );
+
+
         }
     }
 }

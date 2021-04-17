@@ -26,6 +26,22 @@ namespace T11ASP.NetProject.Controllers
             ViewData["product"] = product;
             ViewData["session"] = HttpContext.Session.GetString("sessionId");
 
+            // Calculate the average rating per product
+            var prodComment = context.ProductComment.Where(x => x.ProductId == id);
+            int numberofprods = prodComment.Count();
+            var ratingSum = prodComment.Sum(x => x.Rating);
+
+            if (numberofprods < 1)
+            {
+                ViewData["prodRating"] = 0.0;
+                ViewData["numberofProds"] = 0;
+            }
+            else
+            {
+                ViewData["prodRating"] = ratingSum / numberofprods;
+                ViewData["numberofProds"] = numberofprods;
+            }
+
 
             var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
             var numberofitems = cartexists.Count();
