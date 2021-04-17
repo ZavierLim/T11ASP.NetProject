@@ -32,8 +32,9 @@ namespace T11ASP.NetProject.Controllers
                 ProductId = productId,
                 CustomerId = HttpContext.Session.GetString("sessionId"),
                 OrderId = orderId,
-                Rating = Convert.ToDouble(productRating),
-                Comment = comment
+                Rating = Convert.ToInt32(productRating),
+                Comment = comment,
+                DateTimeofComment = DateTime.Now
             };
             context.ProductComment.Add(customercomment);
             context.SaveChanges();
