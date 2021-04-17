@@ -1,10 +1,13 @@
 ﻿
 @model IEnumerable<ProductList>
 
-@{
+@{ 
     ViewData["Title"] = "Detail";
     ProductList product = (ProductList)ViewData["Product"];
-
+    // string prodRating = (string)ViewData["ProductRating"];
+    float prodRating = Convert.ToSingle(ViewData["prodRating"]);
+    IEnumerable<ProductList> recommendedproducts = (IEnumerable<ProductList>)ViewData["products"];
+    int numberofProds = (int)ViewData["numberofProds"];
 }
 
 @section scripts{
@@ -31,7 +34,7 @@
                 <div class="panel-body">
                     <div class="col-md-5">
                         <div class="pro-img-details">
-                            <input hidden name="productId" value="@product.ProductId"/>
+                            <input hidden name="productId" value="@product.ProductId" />
                             <img src="@product.ImgUrl" alt="">
                         </div>
                     </div>
@@ -70,32 +73,32 @@
                     </div>
                 </div>
                 <!--Recommendations code-->
-                    <span class="pro-d-head form-group">Trending Now</span>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-4 d-flex align-items-md">
-                                
-                                    @foreach(var m in products)
-                                       
-                                    {
-                                        <div class="card-deck col-sm-12 mr-3">
-                                            <img class="card-img-top" src=@m.ImgUrl>
-                                            <div class="card-body">
-                                                <h5 class="card-title"><a href="#" class="">@m.ProductName</a></h5>
-                                                @m.Rating &nbsp; <div class="stars-outer stars-large">
-                                                    <div class="stars-inner" style="width:@(((m.Rating)*20)+"%")"> </div>
-                                                </div>
-                                                <p class="card-text"><strong>SGD</strong>@m.UnitPrice</p>
-                                                <p class="card-text">@m.ShortDescription</p>
-                                            </div>
+                <span class="pro-d-head form-group">Trending Now</span>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4 d-flex align-items-md">
+
+                            @foreach (var m in recommendedproducts)
+
+                            {
+                                <div class="card-deck col-sm-12 mr-3">
+                                    <img class="card-img-top" src=@m.ImgUrl>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><a href="#" class="">@m.ProductName</a></h5>
+                                        @prodRating &nbsp; <div class="stars-outer stars-large">
+                                            <div class="stars-inner" style="width:@(((prodRating)*20)+"%")"> </div>
                                         </div>
-                                    }
-                                    
-                            </div>
+                                        <p class="card-text"><strong>SGD</strong>@m.ProductName</p>
+                                        <p class="card-text">@m.ShortDescription</p>
+                                    </div>
+                                </div>
+                            }
 
                         </div>
+
                     </div>
-                    <!--End of Recommendations code-->
+                </div>
+                <!--End of Recommendations code-->
             </section>
 
             <!-- Comment section-->
