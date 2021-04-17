@@ -44,7 +44,7 @@
 
                     </ul>
                 </div>
-                @if (countofitemsincart==null)
+                @if (int.Parse(countofitemsincart.ToString()) == 0)
                 {
             <a class="nav-link text-dark btn btn-lg btn-floating" style="margin-top: -50px; margin-bottom : -40px" asp-area="" asp-controller="Cart" asp-action="Index">
 
