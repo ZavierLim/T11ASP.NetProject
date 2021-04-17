@@ -1,5 +1,5 @@
-﻿
-var addedProduct = [];
+﻿//HG Changes here
+//var addedProduct = [];
 
 window.onload = function () {
     let button = document.getElementsByClassName("btn btn-primary img_description");
@@ -18,7 +18,7 @@ function updateCounter() {
     let productId = elem.getAttribute("id");
     let counterElem = document.getElementById("lblCartCount");
     
- 
+    counterElem.textContent++;
 /*        for (var i = 0; i < addedProduct.length; i++) {
             window.console.log(addedProduct[i]);
             if (productId === addedProduct[i]) {    
@@ -36,7 +36,7 @@ function updateCounter() {
     
 
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "/Product/UpdateCartFromList");
+    xhr.open("POST", "/Cart/UpdateCartFromList");
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
 
     xhr.onreadystatechange = function () {
@@ -51,10 +51,8 @@ function updateCounter() {
             if (data.isOkay === true) {
                 //unameOutput.textContent = "NO SUCH USER!";
                 //elem.setAttribute("class", "form-control is-invalid");
-                counterElem.textContent++;
-            } else {
-                //elem.setAttribute("class", "form-control is-valid");
-            }
+                
+            } 
 
         }
     }

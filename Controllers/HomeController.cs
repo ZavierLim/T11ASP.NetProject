@@ -22,23 +22,29 @@ namespace T11ASP.NetProject.Controllers
             _logger = logger;
             this.context = context;
         }
+
+        
         [HttpGet]
         public IActionResult Index()
-        {
+        {   //HG changes here
             var allProducts = context.ProductList.ToList();
+            string username = HttpContext.Session.GetString("sessionId");
+            ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
             ViewData["products"] = allProducts;
-            ViewData["session"] = HttpContext.Session.GetString("sessionId");
-            var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
-            var numberofitems= cartexists.Count();
-            if (numberofitems<1)
+            ViewData["session"] = username;
+            if (username != null)
             {
-                ViewData["numberofproductsincart"] = null;
+                var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
+                var numberofitems = cartexists.Count();
+                if (numberofitems < 1)
+                {
+                    ViewData["numberofproductsincart"] = 0;
+                }
+                else
+                {
+                    ViewData["numberofproductsincart"] = numberofitems;
+                }
             }
-            else
-            {
-                ViewData["numberofproductsincart"] = numberofitems;
-            }
-
 
             return View(allProducts);
         }
