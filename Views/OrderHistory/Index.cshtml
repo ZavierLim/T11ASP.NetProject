@@ -23,13 +23,13 @@
 
 @foreach (var order in AllOrders)
 {
-<form>
+@*<form asp-controller="productReview" asp-action="index">*@
     <div class="container-fluid">
         <div class="accordion" id="accordion2">
             <div class="accordion-group">
                 <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse@(@count)">
-                        <h3 name="orderId" value="@order.OrderId">Order Number:@(order.OrderId)</h3>
+                        <h3>Order Number:@(order.OrderId)</h3>
                         <h3>Status:Completed</h3>
                         <p>Date of Purchase: @order.DateofPurchase</p>
                     </a>
@@ -49,13 +49,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <form>
+
                                     @foreach (var product in order.OrderDetails)
                                     {
                                         <tr>
                                             <td>
                                                 <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="@product.ProductList.ImgUrl" style="width:75%;height:75%" /></div>
-                                                <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Photoshop</p><p>@product.ProductList.ProductName</p></div>
+                                                <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p name="productId" value="@product.ProductId">@product.ProductList.ProductName</p></div>
                                             </td>
                                             <td><div>@product.Quantity</div></td>
                                             <td><div>@{subtotal = product.Quantity * product.ProductList.UnitPrice;}@subtotal</div></td>
@@ -85,11 +85,9 @@
                                                     </div>
                                                 </td>
                                             }
-                                            <td><button class="btn btn-info">Review</button></td>
+                                            <td><a class="btn btn-info" asp-controller="ProductReview" asp-action="index" asp-route-productId="@product.ProductList.ProductId" asp-route-orderId="@product.OrderId">Review</a></td>
                                         </tr>
                                     }
-
-                                </form>
                             </tbody>
                         </table>
                     </div>
@@ -98,7 +96,7 @@
         </div>
     </div>
 
-</form>
+@*</form>*@
 }
 
 
