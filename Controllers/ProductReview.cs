@@ -20,24 +20,25 @@ namespace T11ASP.NetProject.Controllers
         {
             var product = context.ProductList.Find(productId);
             ViewData["product"] = product;
+            ViewData["orderid"] = orderId;
             return View();
         }
 
         [HttpPost]
-        public IActionResult Index(int productId,int productRating,string comment,string orderId)
+        public IActionResult Index(int productId,string productRating,string comment,string orderId)
         {
             ProductComment customercomment = new ProductComment
             {
                 ProductId = productId,
                 CustomerId = HttpContext.Session.GetString("sessionId"),
                 OrderId = orderId,
-                Rating = productRating,
+                Rating = Convert.ToDouble(productRating),
                 Comment = comment
             };
             context.ProductComment.Add(customercomment);
             context.SaveChanges();
 
-            return View();
+            return RedirectToAction("index","orderHistory");
         }
     }
 }
