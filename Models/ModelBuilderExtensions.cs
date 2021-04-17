@@ -82,51 +82,6 @@ namespace T11ASP.NetProject.Models
                    Address = "NUS",
                    Password = "123"
                });
-
-            modelBuilder.Entity<Orders>().HasData(
-                new Orders
-                {
-                    OrderId = "a1",
-                    DateofPurchase = DateTime.Now,
-                    CustomerId = "zavierlim",
-                },
-
-                new Orders
-                {
-                    OrderId = "a2",
-                    DateofPurchase = DateTime.Now,
-                    CustomerId = "zavierlim",
-                }
-                );
-
-            modelBuilder.Entity<ProductComment>().HasData(
-                new ProductComment
-                {
-                    ProductId = 1,
-                    CustomerId = "zavierlim",
-                    OrderId = "a1",
-                    Rating = 1.0,
-                },
-
-                new ProductComment
-                {
-                    ProductId = 2,
-                    CustomerId = "zavierlim",
-                    OrderId = "a1",
-                    Rating = 2.0,
-                },
-
-                new ProductComment
-                {
-                ProductId = 1,
-                    CustomerId = "zavierlim",
-                    OrderId = "a2",
-                    Rating = 4.0,
-                }
-
-                );
-
-
         }
     }
 }
