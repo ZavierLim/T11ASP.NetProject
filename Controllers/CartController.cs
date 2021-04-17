@@ -107,8 +107,7 @@ namespace T11ASP.NetProject.Controllers
                 context.SaveChanges();
             } 
             ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
-            //return Redirect(HttpContext.Request.Headers["Referer"]);
-            return Json(new { isOkay = true });
+            return Redirect(HttpContext.Request.Headers["Referer"]);  
         }
 
         public IActionResult RemoveItemFromCart(int productId,string cartId,int quantity)
@@ -187,6 +186,20 @@ namespace T11ASP.NetProject.Controllers
                         }*/
 
             return Json(new { isOkay = false });
+        }
+
+        //HG changes here
+        public IActionResult UpdateCartFromCart([FromBody] ListCart listCart)
+        {
+            string cartContent = HttpContext.Session.GetString("cartContent");
+            ProductList productAdded = context.ProductList.FirstOrDefault(x => x.ProductId == int.Parse(listCart.ProductId));
+            List<CartDetails> updatedCartContent = CartManager.editCart(cartContent, productAdded, listCart.Quantity);
+
+            HttpContext.Session.SetString("cartContent", CartManager.ListToJsonString(updatedCartContent));
+            HttpContext.Session.SetInt32("cartCount", listCart.CartCount);
+
+            //Debug.WriteLine(listCart.Quantity);
+            return Json(new { isOkay = true });
         }
     }
 }

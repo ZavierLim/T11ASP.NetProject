@@ -8,6 +8,7 @@
     float prodRating = Convert.ToSingle(ViewData["prodRating"]);
     IEnumerable<ProductList> recommendedproducts = (IEnumerable<ProductList>)ViewData["products"];
     int numberofProds = (int)ViewData["numberofProds"];
+    
 }
 
 @section scripts{
@@ -27,6 +28,8 @@
 
 
 <h1>Product Details</h1>
+@if (ViewData["session"] != null)
+{
 <form enctype="multipart/form-data" asp-controller="Cart" asp-action="addToCart" method="POST">
     <div class="container bootdey">
         <div class="col-md-12">
@@ -46,7 +49,7 @@
                         </h3>
                         <!-- Rating star 60%=3 star. 2.5 star= 50%-->
                         @prodRating &nbsp; <div class="stars-outer stars-large">
-                            <div class="stars-inner" style="width:@(((prodRating)*20)+"%")"> </div>
+                            <div class="stars-inner" style="width:@(((prodRating) * 20) + "%")"> </div>
                         </div>
                         <span class="body-textStyle">&nbsp;(@numberofProds ratings)</span>
 
@@ -65,15 +68,16 @@
                             <label>Quantity</label>
                             <input name="Quantity" type="number" placeholder="1" min="1" value="1" class="form-control" style="width: 120px">
                         </div>
-                        <p>
-                            <button class="btn btn-round btn-outline-primary" type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                            <button class="btn btn-round btn-primary" type="button" formaction="/"> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>
-                        </p>
+                        
+                            <p>
+                                <button class="btn btn-round btn-outline-primary" type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                                <button class="btn btn-round btn-primary" type="button" formaction="/"> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>
+                            </p>
 
                     </div>
                 </div>
                 <!--Recommendations code-->
-                <span class="pro-d-head form-group">Trending Now</span>
+                <span class="pro-d-head form-group">You May Also Like</span>
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-4 d-flex align-items-md">
@@ -82,11 +86,11 @@
 
                             {
                                 <div class="card-deck col-sm-12 mr-3">
-                                    <img class="card-img-top" src=@m.ImgUrl>
+                                    <img class="card-img-top" style="width:150px; height:150px" src=@m.ImgUrl>
                                     <div class="card-body">
                                         <h5 class="card-title"><a href="#" class="">@m.ProductName</a></h5>
                                         @prodRating &nbsp; <div class="stars-outer stars-large">
-                                            <div class="stars-inner" style="width:@(((prodRating)*20)+"%")"> </div>
+                                            <div class="stars-inner" style="width:@(((prodRating) * 20) + "%")"> </div>
                                         </div>
                                         <p class="card-text"><strong>SGD</strong>@m.ProductName</p>
                                         <p class="card-text">@m.ShortDescription</p>
@@ -120,3 +124,100 @@
         </div>
     </div>
 </form>
+}
+else
+{
+<div class="container bootdey">
+    <div class="col-md-12">
+        <section class="panel">
+            <div class="panel-body">
+                <div class="col-md-5">
+                    <div class="pro-img-details">
+                        <img src=@product.ImgUrl alt="">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="pro-d-title">
+                        <a href="#" class="">
+                            @product.ProductName
+                        </a>
+                    </h3>
+                    <!-- Rating star-->
+                    4.8 &nbsp; <div class="stars-outer stars-large">
+                        <div class="stars-inner" style="width:95%"> </div>
+                    </div>
+                    <span class="body-textStyle">&nbsp;(3 ratings)</span>
+
+                    <!-- Price -->
+                    <div class="product_meta">
+                        <div class="m-bot15"> <strong>SGD</strong><span class="pro-price"> @product.UnitPrice</span></div>
+                        <p></p>
+                        <p>
+                            @product.Description
+                        </p>
+
+                        <!--<span class="tagged_as"><strong>Tags:</strong> <a rel="tag" href="#">mens</a>, <a rel="tag" href="#">womens</a>.</span>-->
+                    </div>
+                    <form action="Product/CartFromDetail" method="POST">
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input name="qty" type="number" placeholder="1" min="1" value="1" class="form-control" style="width: 120px">
+                            <input type="hidden" name="prodId" value="@product.ProductId" />
+                        </div>
+                        <p>
+                            <button type="submit" class="btn btn-round btn-outline-primary" asp-controller="ProductDetails" asp-action="CartFromDetail" asp-route-cmd="addToCart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                            <button type="submit" class="btn btn-round btn-primary" asp-controller="ProductDetails" asp-action="CartFromDetail"> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comment section-->
+        <section class="panel">
+            <div class="panel-body">
+                <span class="pro-d-head form-group">Product Reviews (3)</span>
+                <!-- Loop should start here-->
+                <hr>
+                <i class="fa fa-user-circle"></i>&nbsp; <a class="comment-user: 500;">Harrison</a>
+                <br>
+                <span class="comment-date"> 10/4/2021 11:50 am </span>
+                <br>
+                <div class="stars-outer"><div class="stars-inner" style="width: 95%"></div></div>
+                <p class="p">
+                    Great product that turns everyone into models. Highly recommend!
+                </p>
+            </div>
+        </section>
+
+        <!--Recommendations code-->
+        <span class="pro-d-head form-group">You May Also Like</span>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 d-flex align-items-md">
+
+                    @foreach (var m in recommendedproducts)
+
+                    {
+                        <div class="card-deck col-sm-12 mr-3">
+                            <img class="card-img-top" style="width:150px; height:150px" src=@m.ImgUrl>
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="#" class="">@m.ProductName</a></h5>
+                                @prodRating &nbsp; <div class="stars-outer stars-large">
+                                    <div class="stars-inner" style="width:@(((prodRating) * 20) + "%")"> </div>
+                                </div>
+                                <p class="card-text"><strong>SGD</strong>@m.ProductName</p>
+                                <p class="card-text">@m.ShortDescription</p>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+        <!--End of Recommendations code-->
+    </div>
+</div>
+
+}

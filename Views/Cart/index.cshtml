@@ -23,7 +23,9 @@
 
 }
 
-
+@section scripts{
+    <script src="~/js/Cart.js"></script>
+}
 
 <div class="text-center">
     <h1 class="display-4">Your Shopping Cart Page</h1>
@@ -154,7 +156,7 @@ else
 
                         </div>
                     </td>
-                    <td>@{subtotal = item.Quantity * item.ProductList.UnitPrice;}$@subtotal</td>
+                    <td>@{subtotal = item.Quantity * item.ProductList.UnitPrice;}$<span id=@("itemSubtotal" + item.ProductList.ProductId)>@subtotal</span></td>
                     <td>
                         <form enctype="multipart/form-data" action="/cart/removeitemfromcart" method="POST">
                             <div>
