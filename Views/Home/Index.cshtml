@@ -8,7 +8,7 @@
 
 <form method="post" asp-controller="home" asp-action="index">
     <div class="input-group" style="margin-bottom:30px">
-        <input type="search" class="form-control" value="@ViewData["searchedterm"]" name="searchterm"/>
+        <input id="search" type="search" class="form-control" value="@ViewData["searchedterm"]" name="searchterm"/>
         <input type="submit" value="Search" class="btn btn-primary" />
     </div>
 </form>
