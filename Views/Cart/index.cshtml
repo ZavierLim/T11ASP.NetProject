@@ -15,7 +15,7 @@
 
 <div class="text-center">
     <h1 class="display-4">Your Shopping Cart Page</h1>
-    <hr />
+    <!--<hr />-->
 </div>
 
 @if (ViewData["session"] == null)
@@ -32,10 +32,11 @@
 }
 else if(ViewData["numberofproductsincart"] == null)
 {
+    
+<div style="position:center;margin-left:25%">
     <h4>Hi @ViewData["session"], you do not have any items in your cart.</h4>
-    <div style="position:center;margin-left:25%">
-        <a asp-controller="Home" asp-action="index" class="btn btn-primary">Continue Shopping</a>
-    </div>
+    <a asp-controller="Home" asp-action="index" class="btn btn-primary">Continue Shopping</a>
+</div>
 }
 
 
@@ -62,7 +63,7 @@ else if(ViewData["numberofproductsincart"] == null)
                                 <img src="@item.ProductList.ImgUrl" style="overflow:hidden; position:relative;width:50px;height:50px" />
                             </td>
                             <td>@item.ProductList.ProductName</td>
-                            <td>@item.ProductList.UnitPrice</td>
+                            <td>$@item.ProductList.UnitPrice</td>
                             <td>
                                 <div>
                                     <div style="display:inline-block">
@@ -84,7 +85,7 @@ else if(ViewData["numberofproductsincart"] == null)
 
                                 </div>
                             </td>
-                            <td>@{subtotal = item.Quantity * item.ProductList.UnitPrice;}@subtotal</td>
+                            <td>@{subtotal = item.Quantity * item.ProductList.UnitPrice;}$@subtotal</td>
                             <td>
                                 <form enctype="multipart/form-data" action="/cart/removeitemfromcart" method="POST">
                                     <div>
@@ -110,7 +111,7 @@ else if(ViewData["numberofproductsincart"] == null)
                             <td></td>
                             <td></td>
                             <td>Total</td>
-                            <td><a asp-controller="">@sum</a></td>
+                            <td><a>$@sum</a></td>
                             <td></td>
                             <td></td>
                         </tr>

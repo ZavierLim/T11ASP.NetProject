@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/HomePage.css" />
+    <script src="~/js/AddToCart.js"></script>
 
 </head>
 <body>
@@ -45,18 +46,19 @@
                 </div>
                 @if (countofitemsincart==null)
                 {
-                    <a class="nav-link text-dark btn btn-lg btn-floating" style="margin-top: -50px; margin-bottom : -40px" asp-area="" asp-controller="Cart" asp-action="Index">
+            <a class="nav-link text-dark btn btn-lg btn-floating" style="margin-top: -50px; margin-bottom : -40px" asp-area="" asp-controller="Cart" asp-action="Index">
 
-                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                        Cart
-                    </a>
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <sup><span class="badge badge-secondary" id="lblCartCount">@countofitemsincart</span></sup>
+
+            </a>
                 }
                 else
                 {
                     <a class="nav-link text-dark btn btn-lg btn-floating" style="margin-top: -50px; margin-bottom : -40px" asp-area="" asp-controller="Cart" asp-action="Index">
 
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                        Cart(@countofitemsincart)
+                        <sup><span class="badge badge-secondary" id="lblCartCount">@countofitemsincart</span></sup>
                     </a>
 
                 }
