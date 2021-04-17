@@ -16,7 +16,7 @@ namespace T11ASP.NetProject.Controllers
         {
             this.context = context;
         }
-        public IActionResult Index(int id)
+        public IActionResult Index(int id,string orderId)
         {
             var product = context.ProductList.Find(id);
             ViewData["product"] = product;

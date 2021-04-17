@@ -2,11 +2,11 @@
     ViewData["Title"] = "Home Page";
     IEnumerable<Orders> AllOrders = (IEnumerable<Orders>)ViewData["orders"];
     double subtotal = 0;
-    string review_form = "<form style='width: 220px;top: 40px;'>"
-        + "Rating: <br><select><option>--choose rates--</option><option>*</option><option>**</option><option>***</option><option>****</option><option>*****</option></select>"
-        + "<br>Comments:<br><textarea></textarea>"
-        + "<br><input type='submit' value='submit'>"
-        + "</form>";
+    //string review_form = "<form style='width: 220px;top: 40px;'>"
+    //    + "Rating: <br><select><option>--choose rates--</option><option>*</option><option>**</option><option>***</option><option>****</option><option>*****</option></select>"
+    //    + "<br>Comments:<br><textarea></textarea>"
+    //    + "<br><input type='submit' value='submit'>"
+    //    + "</form>";
     int count = 1;
 }
 
@@ -49,45 +49,47 @@
                                 </tr>
                             </thead>
                             <tbody>
-
-                                @foreach (var product in order.OrderDetails)
-                                {
-                                    <tr>
-                                        <td>
-                                            <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="@product.ProductList.ImgUrl" style="width:75%;height:75%" /></div>
-                                            <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Photoshop</p><p>@product.ProductList.ProductName</p></div>
-                                        </td>
-                                        <td><div>@product.Quantity</div></td>
-                                        <td><div>@{subtotal = product.Quantity * product.ProductList.UnitPrice;}@subtotal</div></td>
-
-                                        @if (product.Quantity == 1)
-                                        {
-                                            @foreach (var activationcode in product.ActivationCodes)
-                                            {
-                                                <td><div>@activationcode.ActivationKey</div></td>
-                                            }
-                                        }
-                                        else
-                                        {
+                                <form>
+                                    @foreach (var product in order.OrderDetails)
+                                    {
+                                        <tr>
                                             <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                        Activation Codes
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                                        @foreach (var activationcode in product.ActivationCodes)
-                                                        {
-                                                            <li><a href="#">@activationcode.ActivationKey</a></li>
-                                                        }
-
-                                                    </ul>
-                                                </div>
+                                                <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="@product.ProductList.ImgUrl" style="width:75%;height:75%" /></div>
+                                                <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p>Photoshop</p><p>@product.ProductList.ProductName</p></div>
                                             </td>
-                                        }
-                                        <td><button class="btn btn-info">Review</button></td>
-                                    </tr>
-                                }
+                                            <td><div>@product.Quantity</div></td>
+                                            <td><div>@{subtotal = product.Quantity * product.ProductList.UnitPrice;}@subtotal</div></td>
+
+                                            @if (product.Quantity == 1)
+                                            {
+                                                @foreach (var activationcode in product.ActivationCodes)
+                                                {
+                                                    <td><div>@activationcode.ActivationKey</div></td>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                            Activation Codes
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                            @foreach (var activationcode in product.ActivationCodes)
+                                                            {
+                                                                <li><a href="#">@activationcode.ActivationKey</a></li>
+                                                            }
+
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            }
+                                            <td><button class="btn btn-info">Review</button></td>
+                                        </tr>
+                                    }
+
+                                </form>
                             </tbody>
                         </table>
                     </div>
