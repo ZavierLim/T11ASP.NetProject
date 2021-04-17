@@ -1,8 +1,11 @@
 ﻿
+@model IEnumerable<ProductList>
+
 @{
     ViewData["Title"] = "Detail";
     ProductList product = (ProductList)ViewData["Product"];
     string prodRating = (string)ViewData["ProductRating"];
+    IEnumerable<ProductList> products = (IEnumerable<ProductList>)ViewData["products"];
 }
 
 @section scripts{
@@ -62,11 +65,38 @@
                         </div>
                         <p>
                             <button class="btn btn-round btn-outline-primary" type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                            <button class="btn btn-round btn-primary" type="button" formaction=""> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>
+                            <button class="btn btn-round btn-primary" type="button" formaction="/"> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>
                         </p>
 
                     </div>
                 </div>
+                <!--Recommendations code-->
+                    <span class="pro-d-head form-group">Trending Now</span>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-4 d-flex align-items-md">
+                                
+                                    @foreach(var m in products)
+                                       
+                                    {
+                                        <div class="card-deck col-sm-12 mr-3">
+                                            <img class="card-img-top" src=@m.ImgUrl>
+                                            <div class="card-body">
+                                                <h5 class="card-title"><a href="#" class="">@m.ProductName</a></h5>
+                                                @m.Rating &nbsp; <div class="stars-outer stars-large">
+                                                    <div class="stars-inner" style="width:@(((m.Rating)*20)+"%")"> </div>
+                                                </div>
+                                                <p class="card-text"><strong>SGD</strong>@m.UnitPrice</p>
+                                                <p class="card-text">@m.ShortDescription</p>
+                                            </div>
+                                        </div>
+                                    }
+                                    
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--End of Recommendations code-->
             </section>
 
             <!-- Comment section-->

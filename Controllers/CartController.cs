@@ -19,67 +19,92 @@ namespace T11ASP.NetProject.Controllers
         {
             this.context = context;
         }
-        public IActionResult Index(int productId,int quantity)
+        public IActionResult Index()
         {
-            ViewData["1"] = productId;
-            ViewData["2"] = quantity;
-            ViewData["3"] = context.ProductList.FirstOrDefault(c => c.ProductId == 1).Description.ToString();
-            var currentsession = HttpContext.Session.GetString("sessionId");
-            if(currentsession!=null)
+            var sessionname = HttpContext.Session.GetString("sessionId");
+            ViewData["session"] = sessionname;
+            if(sessionname!=null)
             {
-                var currentcustomer = context.Customer.FirstOrDefault(x => x.SessionId == currentsession).CustomerId;
+                var currentcustomer = context.Customer.FirstOrDefault(x => x.CustomerId == sessionname).CustomerId;
                 ViewData["4"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomer).ToList();
 
             }
+
+            var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
+            var numberofitems = cartexists.Count();
+            if (numberofitems < 1)
+            {
+                ViewData["numberofproductsincart"] = null;
+            }
+            else
+            {
+                ViewData["numberofproductsincart"] = numberofitems;
+            }
+
             return View();
         }
 
-        public IActionResult AddToCart(int productId,int quantity)
+        public IActionResult AddToCart(int productId,int quantity, string returnUrl)
         {
             //retrieve the cartId from DB;
-            string sessionIdInSession = HttpContext.Session.GetString("sessionId");
-            var sessionindb = context.Customer.FirstOrDefault(x => x.SessionId == sessionIdInSession).SessionId.ToString();
-            var CurrentCartExist = context.Cart.FirstOrDefault(x => x.CustomerId == sessionIdInSession);
-            var customerName = context.Customer.FirstOrDefault(c => c.SessionId == sessionIdInSession).CustomerId.ToString();
-            //cart does not exist
+            var sessionname = HttpContext.Session.GetString("sessionId");
+            var CurrentCartExist = context.Cart.FirstOrDefault(x => x.CustomerId == sessionname);
+            //cart does not exist, create new cart
 
-            if (CurrentCartExist==null &&sessionindb==null)
+            if (CurrentCartExist==null)
             {
                 var CreateCart = new Cart
                 {
                     CartId = Guid.NewGuid().ToString(),
-                    CustomerId = customerName
+                    CustomerId = sessionname
                 };
                 context.Cart.Add(CreateCart);
                 context.SaveChanges();
 
             }
-            //cart exist,to add items;
-            CurrentCartId = context.Cart.FirstOrDefault(x => x.CustomerId ==customerName).CartId;
+            //To add items;
+            CurrentCartId = context.Cart.FirstOrDefault(x => x.CustomerId ==sessionname).CartId;
             var itemInCart = context.CartDetails.FirstOrDefault(c =>c.CartId== CurrentCartId && c.ProductId==productId);
+            
             if(itemInCart==null)
             {
-                string nameofcustomer = context.Customer.FirstOrDefault(x => x.SessionId == sessionindb).CustomerId.ToString();
                 var newproductincart = new CartDetails
                 {
-                    CartId = context.Cart.FirstOrDefault(x => x.CustomerId == nameofcustomer).CartId.ToString(),
+                    CartId = context.Cart.FirstOrDefault(x => x.CustomerId == sessionname).CartId.ToString(),
                     ProductId = productId,
                     Quantity = quantity
                 };
                 context.CartDetails.Add(newproductincart);
-                context.SaveChanges();
+
             }
             else
             {
                 itemInCart.Quantity += quantity;
-                context.SaveChanges();
             }
-            return RedirectToAction("index","cart");
+
+            context.SaveChanges();
+            return Redirect(HttpContext.Request.Headers["Referer"]);
         }
 
-        public void RemoveItemFromCart(int productId,int quantity)
+        public IActionResult RemoveItemFromCart(int productId,string cartId,int quantity)
         {
-            Console.WriteLine("hi");
+            var customercart = context.CartDetails.FirstOrDefault(x => x.CartId == cartId && x.ProductId == productId);
+            if(customercart!=null)
+            {
+                if(quantity==1 && customercart.Quantity>1)
+                {
+                    customercart.Quantity -= 1;
+                }
+                else
+                {
+                    context.CartDetails.Remove(customercart);
+                }
+
+                context.SaveChanges();
+            }
+
+            return RedirectToAction("index", "cart");
         }
     }
 }
+    

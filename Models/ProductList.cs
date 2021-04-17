@@ -19,5 +19,7 @@ namespace T11ASP.NetProject.Models
         public double Rating { get; set; }
 
         public virtual List<OrderDetails> OrderDetails { get; set; }
+
+        public virtual List<ActivationCode> ActivationCodes { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -27,18 +28,41 @@ namespace T11ASP.NetProject.Controllers
             var allProducts = context.ProductList.ToList();
             ViewData["products"] = allProducts;
             ViewData["session"] = HttpContext.Session.GetString("sessionId");
+            var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
+            var numberofitems= cartexists.Count();
+            if (numberofitems<1)
+            {
+                ViewData["numberofproductsincart"] = null;
+            }
+            else
+            {
+                ViewData["numberofproductsincart"] = numberofitems;
+            }
+
 
             return View(allProducts);
         }
 
         [HttpPost]
-        public IActionResult Index(string searchterm)
+        public async Task <IActionResult> Index(string searchterm)
         {
             var searchedProducts = context.ProductList.Where(e => e.ProductName.Contains(searchterm) || e.ShortDescription.Contains(searchterm));
-            //var searchedProducts = context.Search(searchterm);
+            
             ViewData["products"] = searchedProducts;
             ViewData["searchedterm"] = searchterm;
-            return View();
+            ViewData["session"] = HttpContext.Session.GetString("sessionId");
+
+            if (string.IsNullOrEmpty(searchterm))
+            {
+                var allProducts = context.ProductList.ToList();
+                ViewData["products"] = allProducts;
+                return View(allProducts);
+            }
+            
+            
+            //var searchedProducts = context.Search(searchterm);
+            
+            return View(await searchedProducts.ToListAsync());
         }
 
         public IActionResult Privacy()

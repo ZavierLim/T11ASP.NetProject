@@ -2,99 +2,129 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    //var hi =(int) ViewData["1"];
-    //var hi2 = (int) ViewData["2"];
-    //var hi3 = (string)ViewData["3"];
     ViewBag.Title = "ShoppingCart";
     double subtotal = 0;
     double sum = 0;
     int count = 0;
 
     IEnumerable<CartDetails> shoppingcart = (IEnumerable<CartDetails>)ViewData["4"];
+
 }
 
-@*<h2>@hi</h2>
-    <h2>@hi2</h2>
-    <h3>@hi3</h3>*@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<div id="dvContents">
-    <table class="table table-hover" width="100%" height="100%">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Item</th>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Item Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (shoppingcart==null)
-             {
-                <tr>
-                    <td style="font-size:20px">There are no items in the cart </td>
-                </tr>
-             }
-            else
-            {
-                @foreach (var item in shoppingcart)
-                    { 
-                    <tr>
-                        <td>@{count++;}@count</td>
-                        <td>
-                            <img src="@item.ProductList.ImgUrl" style="overflow:hidden; position:relative;width:50px;height:50px" />
-                        </td>
-                        <td>@item.ProductList.ProductName</td>
-                        <td>@item.ProductList.UnitPrice</td>
-                        <td>
-                            <form enctype="multipart/form-data" action="/cart/addtocart" method="POST">
-                                <div>
-                                    <input type="hidden" name="quantity" value=1 />
-                                    <input type="hidden" name="productId" value=@item.ProductId>
-                                    <button type="submit" class="btn btn-success">Add</button>
-                                </div>
-                            </form>
-                            <input style="width:30px" asp-for="@item.Quantity" name="quantity" type="text" value="@item.Quantity" />
-                            <button asp-controller="AddtoCart" asp-action="delete" asp-route-id="@item.Quantity" class="btn btn-warning">Remove</button>
-                        </td>
-                        <td>@{subtotal = item.Quantity * item.ProductList.UnitPrice;}@subtotal</td>
-                        <td>
-                            <a asp-controller="AddtoCart" asp-action="RemoveAll" asp-route-id="@item.ProductId" class="btn btn-danger">Delete Item</a>
-                        </td>
-                    </tr>
-                    }
-            }
-        </tbody>
-        <tfoot>
-            @if (shoppingcart != null)
-            {
-                @foreach (var item in shoppingcart)
-                {
-                    sum = item.Quantity * item.ProductList.UnitPrice + sum;
-                }
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Total</td>
-                    <td><a asp-controller="">@sum</a></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            }
-        </tfoot>
-    </table>
 
-    <div id="footer" width="100%" height="60px">
-        <button type="button" id="btnprint" class="btn btn-primary">Print</button>
-        <a asp-controller="Home" asp-action="index" class="btn btn-success">Continue Shopping</a>
-        <button type="button" id="btnprint" class="btn btn-warning">Place Order</button>
+<div class="text-center">
+    <h1 class="display-4">Your Shopping Cart Page</h1>
+    <!--<hr />-->
+</div>
 
+@if (ViewData["session"] == null)
+{
+    <h4>There are currently no items in your cart. If you are a registered user, login to retrieve your current cart.</h4>
+    <h4>Alternatively, you can register for an account.</h4>
+    <hr />
+    <div style="position:center;margin-left:25%">
+        <a asp-controller="Home" asp-action="index" class="btn btn-primary">Continue Shopping</a>
+        <a asp-controller="Login" asp-action="index" class="btn btn-primary">Login</a>
+        <a asp-controller="Login" asp-action="Register" class="btn btn-primary">Register for an account</a>
 
     </div>
-
+}
+else if(ViewData["numberofproductsincart"] == null)
+{
+    
+<div style="position:center;margin-left:25%">
+    <h4>Hi @ViewData["session"], you do not have any items in your cart.</h4>
+    <a asp-controller="Home" asp-action="index" class="btn btn-primary">Continue Shopping</a>
 </div>
+}
+
+
+        else
+        {
+        <div id="dvContents">
+            <table class="table table-hover" width="100%" height="100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Item</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Item Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in shoppingcart)
+                    {
+                        <tr>
+                            <td>@{count++;}@count</td>
+                            <td>
+                                <img src="@item.ProductList.ImgUrl" style="overflow:hidden; position:relative;width:50px;height:50px" />
+                            </td>
+                            <td>@item.ProductList.ProductName</td>
+                            <td>$@item.ProductList.UnitPrice</td>
+                            <td>
+                                <div>
+                                    <div style="display:inline-block">
+                                        <form enctype="multipart/form-data" action="/cart/addtocart" method="POST">
+                                            <input type="hidden" name="quantity" value=1 />
+                                            <input type="hidden" name="productId" value=@item.ProductId>
+                                            <button style="display:inline-block" type="submit" class="btn btn-success">Add</button>
+                                        </form>
+                                    </div>
+                                    <input style="width:40px;display:inline-block" asp-for="@item.Quantity" name="quantity" value="@item.Quantity" />
+                                    <div style="display:inline-block">
+                                        <form enctype="multipart/form-data" action="/cart/removeitemfromcart" method="POST">
+                                            <input type="hidden" name="cartId" value="@item.CartId" />
+                                            <input type="hidden" name="quantity" value=1 />
+                                            <input type="hidden" name="productId" value=@item.ProductId>
+                                            <button type="submit" class="btn btn-success">Minus</button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </td>
+                            <td>@{subtotal = item.Quantity * item.ProductList.UnitPrice;}$@subtotal</td>
+                            <td>
+                                <form enctype="multipart/form-data" action="/cart/removeitemfromcart" method="POST">
+                                    <div>
+                                        <input type="hidden" name="cartId" value="@item.CartId" />
+                                        <input type="hidden" name="quantity" value="@item.Quantity" />
+                                        <input type="hidden" name="productId" value=@item.ProductId>
+                                        <button type="submit" class="btn btn-danger">Delete Item</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    @if (shoppingcart != null)
+                    {
+                        @foreach (var item in shoppingcart)
+                        {
+                            sum = item.Quantity * item.ProductList.UnitPrice + sum;
+                        }
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Total</td>
+                            <td><a>$@sum</a></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    }
+                </tfoot>
+            </table>
+
+            <div id="footer" width="100%" height="60px">
+                <a asp-controller="Home" asp-action="index" class="btn btn-success">Continue Shopping</a>
+                <a asp-controller="Checkout" asp-action="index" class="btn btn-warning">Proceed to  checkout</a>
+
+
+            </div>
+
+        </div>
+        }

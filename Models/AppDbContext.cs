@@ -27,6 +27,13 @@ namespace T11ASP.NetProject.Models
             modelBuilder.Entity<ProductComment>()
                  .HasKey(c => new { c.ProductId,c.CustomerId,c.OrderId });
 
+            modelBuilder.Entity<ActivationCode>()
+                .HasOne(c => c.ProductList)
+                .WithMany(c => c.ActivationCodes).OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ActivationCode>()
+                .HasKey(c => new { c.OrderId, c.ProductId, c.ActivationKey });
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.Seed();
         }
@@ -41,6 +48,8 @@ namespace T11ASP.NetProject.Models
 
         public DbSet<CartDetails> CartDetails { get; set; }
         public DbSet<ProductComment> ProductComment { get; set; }
+
+        public DbSet<ActivationCode> ActivationCodes { get; set; }
 
     }
 }

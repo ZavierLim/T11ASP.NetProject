@@ -10,7 +10,7 @@ namespace T11ASP.NetProject.Models
     public class Orders
     {
         [Key]
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         public DateTime DateofPurchase{get;set;}
 
         public string CustomerId { get; set; }
