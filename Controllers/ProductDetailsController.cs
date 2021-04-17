@@ -27,7 +27,7 @@ namespace T11ASP.NetProject.Controllers
             ViewData["session"] = HttpContext.Session.GetString("sessionId");
 
             // Calculate the average rating per product
-            var prodComment = context.ProductComment.Where(x => x.ProductId == id);
+            var prodComment = context.ProductComment.Where(x => x.ProductId == id).ToList();
             int numberofprods = prodComment.Count();
             var ratingSum = prodComment.Sum(x => x.Rating);
 
