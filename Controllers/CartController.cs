@@ -52,9 +52,11 @@ namespace T11ASP.NetProject.Controllers
             }
             else
             {
-                List<CartDetails> cartList = CartManager.JsonStringToList(cartContent);
-                ViewData["cartContent"] = CartManager.ListToDictionary(context, cartList);
-                
+                if (cartContent != null)
+                {
+                    List<CartDetails> cartList = CartManager.JsonStringToList(cartContent);
+                    ViewData["cartContent"] = CartManager.ListToDictionary(context, cartList);
+                }
                 ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
             }
             return View();
@@ -126,7 +128,6 @@ namespace T11ASP.NetProject.Controllers
 
                 context.SaveChanges();
             }
-
             return RedirectToAction("index", "cart");
         }
 
@@ -200,6 +201,19 @@ namespace T11ASP.NetProject.Controllers
 
             //Debug.WriteLine(listCart.Quantity);
             return Json(new { isOkay = true });
+        }
+
+        //HG changes here
+        public IActionResult DeleteItem(string id, int qty)
+        {
+            string cartContent = HttpContext.Session.GetString("cartContent");
+            int cartCount = HttpContext.Session.GetInt32("cartCount") ?? 0;
+            ProductList productAdded = context.ProductList.FirstOrDefault(x => x.ProductId == int.Parse(id));
+            List<CartDetails> updatedCartContent = CartManager.editCart(cartContent, productAdded, 0);
+            cartCount = cartCount - qty;
+            HttpContext.Session.SetInt32("cartCount", cartCount);
+            HttpContext.Session.SetString("cartContent", CartManager.ListToJsonString(updatedCartContent));
+            return RedirectToAction("Index");
         }
     }
 }
