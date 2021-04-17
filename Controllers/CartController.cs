@@ -24,7 +24,7 @@ namespace T11ASP.NetProject.Controllers
         public IActionResult Index()
         {
             var sessionname = HttpContext.Session.GetString("sessionId");
-            
+            var numberofitems = 0;
             string cartContent = HttpContext.Session.GetString("cartContent");
 
             ViewData["session"] = sessionname;
@@ -34,7 +34,12 @@ namespace T11ASP.NetProject.Controllers
                 ViewData["4"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomer).ToList();
 
                 var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
-                var numberofitems = cartexists.Count();
+
+                foreach (CartDetails cd in cartexists)
+                {
+                    //numberofitems = cartexists.Count();
+                    numberofitems = cd.Quantity + numberofitems;
+                }
                 if (numberofitems < 1)
                 {
                     ViewData["numberofproductsincart"] = null;
@@ -42,6 +47,7 @@ namespace T11ASP.NetProject.Controllers
                 else
                 {
                     ViewData["numberofproductsincart"] = numberofitems;
+                    HttpContext.Session.SetInt32("cartCount", numberofitems);
                 }
             }
             else
@@ -95,14 +101,14 @@ namespace T11ASP.NetProject.Controllers
                 else
                 {
                     itemInCart.Quantity += quantity;
+                    HttpContext.Session.SetInt32("cartCount", itemInCart.Quantity);
                 }
 
                 context.SaveChanges();
-            } else
-            {
-            }
+            } 
             ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
-            return Redirect(HttpContext.Request.Headers["Referer"]);
+            //return Redirect(HttpContext.Request.Headers["Referer"]);
+            return Json(new { isOkay = true });
         }
 
         public IActionResult RemoveItemFromCart(int productId,string cartId,int quantity)
@@ -128,7 +134,7 @@ namespace T11ASP.NetProject.Controllers
         //HG changes here
         public IActionResult UpdateCartFromList ([FromBody] ListCart listCart)
         {
-            string loginUser = HttpContext.Session.GetString("sessionId");
+            string sessionname = HttpContext.Session.GetString("sessionId");
             string cartContent = HttpContext.Session.GetString("cartContent");
             ProductList productAdded = context.ProductList.FirstOrDefault(x => x.ProductId == int.Parse(listCart.ProductId));
             List<CartDetails> updatedCartContent = CartManager.updateCart(cartContent, productAdded, 1);
@@ -136,11 +142,49 @@ namespace T11ASP.NetProject.Controllers
             HttpContext.Session.SetInt32("cartCount", listCart.CartCount);
             HttpContext.Session.SetString("cartContent", CartManager.ListToJsonString(updatedCartContent));
 
-/*            if (!(CartManager.duplicateItem(cartContent, productAdded)))
+            if (sessionname != null)
             {
-                HttpContext.Session.SetInt32("cartCount", listCart.CartCount + 1);
-                return Json(new { isOkay = true });
-            }*/
+                var CurrentCartExist = context.Cart.FirstOrDefault(x => x.CustomerId == sessionname);
+
+                //cart does not exist, create new cart
+
+                if (CurrentCartExist == null)
+                {
+                    var CreateCart = new Cart
+                    {
+                        CartId = Guid.NewGuid().ToString(),
+                        CustomerId = sessionname
+                    };
+                    context.Cart.Add(CreateCart);
+                    context.SaveChanges();
+
+                }
+                //To add items;
+                CurrentCartId = context.Cart.FirstOrDefault(x => x.CustomerId == sessionname).CartId;
+                var itemInCart = context.CartDetails.FirstOrDefault(c => c.CartId == CurrentCartId && c.ProductId == int.Parse(listCart.ProductId));
+
+                if (itemInCart == null)
+                {
+                    var newproductincart = new CartDetails
+                    {
+                        CartId = context.Cart.FirstOrDefault(x => x.CustomerId == sessionname).CartId.ToString(),
+                        ProductId = int.Parse(listCart.ProductId),
+                        Quantity = 1
+                    };
+                    context.CartDetails.Add(newproductincart);
+                }
+                else
+                {
+                    itemInCart.Quantity += 1;
+                }
+
+                context.SaveChanges();
+            }
+            /*            if (!(CartManager.duplicateItem(cartContent, productAdded)))
+                        {
+                            HttpContext.Session.SetInt32("cartCount", listCart.CartCount + 1);
+                            return Json(new { isOkay = true });
+                        }*/
 
             return Json(new { isOkay = false });
         }
