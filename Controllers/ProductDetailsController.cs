@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using T11ASP.NetProject.Models;
+using T11ASP.NetProject.Util;
 
 namespace T11ASP.NetProject.Controllers
 {
@@ -20,11 +21,12 @@ namespace T11ASP.NetProject.Controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
+            var sessionname = HttpContext.Session.GetString("sessionId");
             var product = context.ProductList.Find(id);
             var allProducts = context.ProductList.OrderBy(emp => Guid.NewGuid()).Take(3).ToList(); //Recommendations code
             ViewData["products"] = allProducts; //Recommendations code
             ViewData["product"] = product;
-            ViewData["session"] = HttpContext.Session.GetString("sessionId");
+            ViewData["session"] = sessionname;
 
             // Calculate the average rating per product
             var prodComment = context.ProductComment.Where(x => x.ProductId == id).ToList();
@@ -42,21 +44,51 @@ namespace T11ASP.NetProject.Controllers
                 ViewData["numberofProds"] = numberofprods;
             }
 
-
-            var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
-            var numberofitems = cartexists.Count();
-            if (numberofitems < 1)
+            if (sessionname != null)
             {
-                ViewData["numberofproductsincart"] = null;
+                var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
+                var numberofitems = cartexists.Count();
+                if (numberofitems < 1)
+                {
+                    ViewData["numberofproductsincart"] = null;
+                }
+                else
+                {
+                    ViewData["numberofproductsincart"] = numberofitems;
+                }
             }
-            else
-            {
-                ViewData["numberofproductsincart"] = numberofitems;
-            }
+            
+            ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
             return View(allProducts);
         }
 
+        //HG changes here
+        public IActionResult CartFromDetail(string prodId, int qty, string cmd)
+        {
+            string cartContent = HttpContext.Session.GetString("cartContent");
 
+            int cartCount = HttpContext.Session.GetInt32("cartCount") ?? 0;
+
+            ProductList productAdded = context.ProductList.FirstOrDefault(x => x.ProductId == int.Parse(prodId));
+            List<CartDetails> updatedCartContent = CartManager.updateCart(cartContent, productAdded, qty);
+
+            if (!(CartManager.duplicateItem(cartContent, productAdded)))
+                cartCount++;
+            else
+                cartCount = cartCount + qty;
+
+            HttpContext.Session.SetString("cartContent", CartManager.ListToJsonString(updatedCartContent));
+            HttpContext.Session.SetInt32("cartCount", cartCount);
+
+            //to check if it is from add-to-cart button or buy now button
+            if (cmd != null)
+            {
+                string url = String.Format("/ProductDetails/Index?id={0}", prodId);
+                return Redirect(url);
+            }
+
+            return RedirectToAction("Index", "Cart");
+        }
 
 
 

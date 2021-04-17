@@ -26,6 +26,7 @@ namespace T11ASP.NetProject.Controllers
             {
                 return RedirectToAction("index","home");
             }
+            ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
             return View();
         }
         public IActionResult Authenticate(string username, string password)

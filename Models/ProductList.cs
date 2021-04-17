@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace T11ASP.NetProject.Models
 {
     public class ProductList
-    {
+    {   //HG Changes here
         [Key]
         [Required]
         public int ProductId { get; set; }

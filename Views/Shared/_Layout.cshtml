@@ -1,5 +1,5 @@
 ﻿@{ 
-    var countofitemsincart = ViewData["numberofproductsincart"];
+    var countofitemsincart = ViewData["numberofproductsincart"] ?? 0;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/HomePage.css" />
     <script src="~/js/AddToCart.js"></script>
-
+    
 </head>
 <body>
     <header>
