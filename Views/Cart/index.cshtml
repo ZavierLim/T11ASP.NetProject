@@ -7,7 +7,7 @@
     double sum = 0;
     int count = 0;
 
-    IEnumerable<CartDetails> shoppingcart = (IEnumerable<CartDetails>)ViewData["4"];
+    IEnumerable<CartDetails> shoppingcart = (IEnumerable<CartDetails>)ViewData["currentShoppingCart"];
 
     //var count = 0;
     Dictionary<ProductList, int> cartContent = (Dictionary<ProductList, int>)ViewData["cartContent"];

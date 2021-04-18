@@ -16,14 +16,17 @@ namespace T11ASP.NetProject.Controllers
         {
             this.context = context;
         }
+        //get product reviews page
         public IActionResult Index(int productId,string orderId)
         {
             var product = context.ProductList.Find(productId);
+
             ViewData["product"] = product;
             ViewData["orderid"] = orderId;
             return View();
         }
 
+        //post comment
         [HttpPost]
         public IActionResult Index(int productId,string productRating,string comment,string orderId)
         {

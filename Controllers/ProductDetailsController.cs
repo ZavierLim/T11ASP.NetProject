@@ -12,8 +12,6 @@ namespace T11ASP.NetProject.Controllers
     public class ProductDetailsController : Controller
     {
         private readonly AppDbContext context;
-        Random rnd = new Random();
-
         public ProductDetailsController(AppDbContext context)
         {
             this.context = context;
@@ -67,7 +65,7 @@ namespace T11ASP.NetProject.Controllers
             return View(allProducts);
         }
 
-        //HG changes here
+        //TODO: shift this to cart controller. 
         public IActionResult CartFromDetail(string prodId, int qty, string cmd)
         {
             string cartContent = HttpContext.Session.GetString("cartContent");
