@@ -20,13 +20,29 @@ namespace T11ASP.NetProject.Controllers
         public IActionResult Index(int productId,string orderId)
         {
             var product = context.ProductList.Find(productId);
-
+            var sessionname = HttpContext.Session.GetString("sessionId");
             ViewData["product"] = product;
             ViewData["orderid"] = orderId;
+            ViewData["session"] = sessionname;
+
+
+            //if product is already reviewed, the page displays message that product is reviewed.
+            var isproductreviewed = context.ProductComment.FirstOrDefault(x=>x.ProductId==productId
+                                    && x.OrderId==orderId && x.CustomerId==HttpContext.Session.GetString("sessionId"));
+            if(isproductreviewed!=null)
+            {
+                ViewData["IsProductAlreadyReviewed"] = true;
+            }
+            else
+            {
+                ViewData["IsProductAlreadyReviewed"] = false;
+            }
+
+
             return View();
         }
 
-        //post comment
+        //post comment to DB and comments will show in product details page
         [HttpPost]
         public IActionResult Index(int productId,string productRating,string comment,string orderId)
         {
