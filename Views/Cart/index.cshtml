@@ -27,6 +27,8 @@
     <script src="~/js/Cart.js"></script>
 }
 
+<link rel="stylesheet" href="~/css/Cart.css">
+
 <div class="text-center">
     <h1 class="display-4">Your Shopping Cart Page</h1>
     <!--<hr />-->
@@ -61,7 +63,7 @@
                     </td>
                     <td>@{subtotal = entry.Value * entry.Key.UnitPrice;}$<span id=@("itemSubtotal" + entry.Key.ProductId)>@subtotal</span></td>
                     <td>
-                        <a id=@("cancel" + entry.Key.ProductId) class="btn btn-danger" asp-controller="Product" asp-action="DeleteItem" asp-route-id="@entry.Key.ProductId" )>Delete Item</a>
+                        <a id=@("cancel" + entry.Key.ProductId) class="btn btn-danger" asp-controller="Cart" asp-action="DeleteItem" asp-route-id="@entry.Key.ProductId" asp-route-qty="@entry.Value" )>Delete Item</a>
                     </td>
                 </tr>
             }
