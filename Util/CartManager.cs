@@ -50,7 +50,7 @@ namespace T11ASP.NetProject.Util
             }
             if (!existedItem)
             {
-                existingCartContent.Add(new CartDetails() { ProductId = prod.ProductId, Quantity = 1 });
+                existingCartContent.Add(new CartDetails() { ProductId = prod.ProductId, Quantity = qty });
             }
 
             return existingCartContent;
