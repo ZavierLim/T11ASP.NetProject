@@ -62,7 +62,7 @@ namespace T11ASP.NetProject.Controllers
             //To show product reviews page
             var AllProductReviews = context.ProductComment.Where(x => x.ProductId == id).ToList();
             ViewData["AllProductReviews"] = AllProductReviews;
-            return View(allProducts);
+            return View();
         }
 
         //TODO: shift this to cart controller. 

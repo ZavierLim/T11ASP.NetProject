@@ -15,14 +15,16 @@
 <div class="card-deck col-sm-12">
     @foreach (var m in products)
     {
-            <div class="col-sm-4" enctype="multipart/form-data">
+            <div class="col-sm-4" enctype="multipart/form-data" action="/cart/addtocart">
                 <div class="card" style="min-width:20rem;max-width:35.5%;margin-bottom:20px">
                     <div class="a">
                         <img src="@m.ImgUrl" class="card-img-top imageThumbnail img_container" alt="...">
                         <div class="badge_container">
                             <a asp-controller="ProductDetails" asp-action="index" asp-route-id="@m.ProductId"
                                class="btn btn-success img_description" id="btn1"> View» </a>
-                            <button type="submit" class="btn btn-primary img_description" id=@m.ProductId>Add Cart</button>
+                            <a asp-controller="Cart" asp-action="addtocart"
+                               class="btn btn-success img_description" id="btn1"> View» </a>
+                            <button type="submit" aspclass="btn btn-primary img_description" id=@m.ProductId>Add Cart</button>
                         </div>
                     </div>
 
