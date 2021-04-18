@@ -28,7 +28,6 @@ namespace T11ASP.NetProject.Controllers
                 return RedirectToAction("index","home");
             }
             ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
-      
 
             return View();
         }
@@ -49,12 +48,10 @@ namespace T11ASP.NetProject.Controllers
             
             //if customer exist, set sessionID to customerId
             HttpContext.Session.SetString("sessionId", customer.CustomerId);
-            ViewData["userLoggedIn"] = customer.CustomerId;
-            return RedirectToAction("index", "home");
+            ViewData["sessionId"] = customer.CustomerId;
 
-
-            //TODO: 
-
+            //go to cart after user logs in
+            return RedirectToAction("index", "Cart");
 
         }
 

@@ -101,5 +101,30 @@ namespace T11ASP.NetProject.Util
 
             return existedItem;
         }
+
+        static public void saveCart(AppDbContext context, List<CartDetails> cartList, string sessionId)
+        {
+            Cart newCart = new Cart()
+            {
+                CartId = Guid.NewGuid().ToString(),
+                CustomerId = sessionId,
+            };
+            context.Cart.Add(newCart);
+            context.SaveChanges();
+
+            string newCartId = context.Cart.FirstOrDefault(x => x.CustomerId == sessionId).CartId;
+
+            foreach (CartDetails cd in cartList)
+            {
+                CartDetails newCd = new CartDetails()
+                {
+                    CartId = newCartId,
+                    ProductId = cd.ProductId,
+                    Quantity = cd.Quantity
+                };
+                context.CartDetails.Add(newCd);
+            }
+            context.SaveChanges();
+        }
     }
 }
