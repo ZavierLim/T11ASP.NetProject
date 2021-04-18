@@ -103,6 +103,9 @@ namespace T11ASP.NetProject.Controllers
                 ViewData["orderId"] = orderconfirmed.OrderId;
             }
 
+            //remove the sessiondata after the customer checks out;
+            HttpContext.Session.Remove("cartContent");
+            HttpContext.Session.SetInt32("cartCount", 0);
             return View();
 
         }
