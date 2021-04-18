@@ -20,7 +20,6 @@ namespace T11ASP.NetProject.Controllers
             this.context = context;
         }
 
-        
         [HttpGet]
         public IActionResult Index()
         {   

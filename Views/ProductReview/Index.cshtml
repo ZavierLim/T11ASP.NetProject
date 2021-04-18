@@ -3,6 +3,7 @@
 *@
 @{
     var product = (ProductList)ViewData["product"];
+    bool IsProductAlreadyReviewed = (bool)ViewData["IsProductAlreadyReviewed"];
 
 }
 
@@ -87,27 +88,37 @@
 
                     </div>
 
+                    @if (IsProductAlreadyReviewed == true)
+                    {
+                <div class="col-md-12">
+                    <h3>You have already reviewed this item for this order.</h3>
+                    <a asp-controller="OrderHistory" asp-action="index" class="btn btn-success">Back to Order History</a>
+                </div>
 
-                    <div class="col-md-12">
-                        <input hidden id="ProductRater" name="productRating" />
-                        <ul id="starUl">
-                            <li id="caption">Your Rating:&nbsp;</li>
-                            <li class="stars-outer stars-large"></li>
-                            <li class="stars-outer stars-large"></li>
-                            <li class="stars-outer stars-large"></li>
-                            <li class="stars-outer stars-large"></li>s
-                            <li class="stars-outer stars-large"></li>
-                        </ul>
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-12">
+                            <input hidden id="ProductRater" name="productRating" />
+                            <ul id="starUl">
+                                <li id="caption">Your Rating:&nbsp;</li>
+                                <li class="stars-outer stars-large"></li>
+                                <li class="stars-outer stars-large"></li>
+                                <li class="stars-outer stars-large"></li>
+                                <li class="stars-outer stars-large"></li>
+                                <li class="stars-outer stars-large"></li>
+                            </ul>
+                        </div>
 
-                    </div>
-                    <div class="col-md-12">
-                        <textarea name="comment" style="resize:none;width:100%;height:150px"></textarea>
-                        <p>
-                            <button class="btn btn-round btn-primary" type="submit"> Submit Review</button>
-                        </p>
-                    </div>
-            </section>
+
+                        <div class="col-md-12">
+                            <textarea name="comment" style="resize:none;width:100%;height:150px"></textarea>
+                            <p>
+                                <button class="btn btn-round btn-primary" type="submit"> Submit Review</button>
+                            </p>
+                        </div>
+                    }
+                    </section>
         </div>
     </div>
 </form>
@@ -119,9 +130,7 @@
     var lis = ul.getElementsByTagName("li");
     var productrater = document.getElementById("ProductRater");
  
-    //num:传入点亮星星的个数
-    //finalNum:最终点亮星星的个数
-    //tempNum:一个中间值
+
     function fnShow(num) {
         finalNum = num || tempNum;
         for (var i = 0; i < lis.length; i++) {
@@ -132,13 +141,13 @@
     }
     for (var i = 1; i <= lis.length; i++) {
         lis[i - 1].index = i;
-        lis[i - 1].onmouseover = function () { //鼠标经过点亮星星。
+        lis[i - 1].onmouseover = function () {
             fnShow(this.index);
         }
-        lis[i - 1].onmouseout = function () { //鼠标离开时星星变暗
+        lis[i - 1].onmouseout = function () { 
             fnShow(0);
         }
-        lis[i - 1].onclick = function () { //鼠标点击,同时会调用onmouseout,改变tempNum值点亮星星
+        lis[i - 1].onclick = function () {
             tempNum = this.index;
             var FinalRating = (tempNum - 1);
             productrater.setAttribute("value", FinalRating);

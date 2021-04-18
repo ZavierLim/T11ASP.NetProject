@@ -99,7 +99,7 @@ namespace T11ASP.NetProject.Controllers
         }
 
         //This will add item to cart from HomePage/Product Details Page/In cart
-        public IActionResult AddToCart(int productId,int quantity, string returnUrl)
+        public IActionResult AddToCart(int productId,int quantity, string buynow)
         {
             //retrieve the cartId from DB;
             var sessionname = HttpContext.Session.GetString("sessionId");
@@ -149,7 +149,17 @@ namespace T11ASP.NetProject.Controllers
                 context.SaveChanges();
             } 
             ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
-            return Redirect(HttpContext.Request.Headers["Referer"]);  
+            
+            if(buynow=="yes")
+            {
+                return RedirectToAction("Index", "Cart");
+            }
+            else
+            {
+                //redirect to the current page of the product that the user is viewing
+                return Redirect(HttpContext.Request.Headers["Referer"]);
+            }
+
         }
 
         public IActionResult RemoveItemFromCart(int productId,string cartId,int quantity)

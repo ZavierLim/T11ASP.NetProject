@@ -75,11 +75,12 @@
 
                             <p>
                                 <button class="btn btn-round btn-outline-primary" type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                                <button class="btn btn-round btn-primary" type="button" formaction="/"> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>
+                                <button class="btn btn-round btn-primary" name="buynow" value="yes" type="submit"> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>
                             </p>
 
                         </div>
                     </div>
+                </section>
             </div>
         </div>
     </form>
@@ -138,7 +139,7 @@ else
 
 }
 <!--Recommendations code-->
-<span class="pro-d-head form-group">You May Also Like</span>
+<span class="pro-d-head form-group">Recommended Products</span>
 <div class="container">
     <div class="row">
         <div class="col-sm-4 d-flex align-items-md">
@@ -147,14 +148,12 @@ else
 
             {
                 <div class="card-deck col-sm-12 mr-3">
-                    <img class="card-img-top" style="width:150px; height:150px" src=@m.ImgUrl>
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="#" class="">@m.ProductName</a></h5>
-                        @prodRating &nbsp; <div class="stars-outer stars-large">
-                            <div class="stars-inner" style="width:@(((prodRating) * 20) + "%")"> </div>
-                        </div>
-                        <p class="card-text"><strong>SGD</strong>@m.ProductName</p>
-                        <p class="card-text">@m.ShortDescription</p>
+                    <a href="/productdetails/index/@m.ProductId">
+                        <img class="card-img-top" style="width:150px; height:150px" src=@m.ImgUrl>
+                    </a>
+                    <div class="card-body col-sm-12">
+                        <h5 class="card-title">@m.ProductName</h5>
+
                     </div>
                 </div>
             }
@@ -164,14 +163,13 @@ else
     </div>
 </div>
 <!--End of Recommendations code-->
-
 <!-- Comment section-->
+
+<span class="pro-d-head form-group">Product Reviews</span>
 @foreach (var productreview in allProductComments)
 {
     <section class="panel">
         <div class="panel-body">
-            <span class="pro-d-head form-group">Product Reviews</span>
-            <!-- Loop should start here-->
             <hr>
             <i class="fa fa-user-circle"></i>&nbsp; <a class="comment-user: 500;">@productreview.CustomerId</a>
             <br>
