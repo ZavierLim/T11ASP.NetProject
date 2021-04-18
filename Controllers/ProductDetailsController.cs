@@ -44,6 +44,7 @@ namespace T11ASP.NetProject.Controllers
                 ViewData["numberofProds"] = numberofprods;
             }
 
+            //To show number of items in cart on navigation bar
             if (sessionname != null)
             {
                 var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
@@ -57,8 +58,12 @@ namespace T11ASP.NetProject.Controllers
                     ViewData["numberofproductsincart"] = numberofitems;
                 }
             }
-            
+
             ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
+
+            //To show product reviews page
+            var AllProductReviews = context.ProductComment.Where(x => x.ProductId == id).ToList();
+            ViewData["AllProductReviews"] = AllProductReviews;
             return View(allProducts);
         }
 
