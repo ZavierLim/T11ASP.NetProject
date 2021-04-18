@@ -13,29 +13,26 @@ namespace T11ASP.NetProject.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        //private readonly IProductListRepository _ProductList;
         private readonly AppDbContext context;
 
-        public HomeController(ILogger<HomeController> logger,AppDbContext context)
+        public HomeController(AppDbContext context)
         {
-            _logger = logger;
             this.context = context;
         }
 
         
         [HttpGet]
         public IActionResult Index()
-        {   //HG changes here
+        {   
+            //add the cart session
             var allProducts = context.ProductList.ToList();
             string username = HttpContext.Session.GetString("sessionId");
-            ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
-            ViewData["products"] = allProducts;
-            ViewData["session"] = username;
+
+            //if the user is logged in ,navigation bar to show the count of items in the cart, this data is passed to layout 
             if (username != null)
             {
                 var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
-                var numberofitems = cartexists.Sum(x=>x.Quantity);
+                var numberofitems = cartexists.Sum(x => x.Quantity);
                 if (numberofitems < 1)
                 {
                     ViewData["numberofproductsincart"] = 0;
@@ -45,10 +42,23 @@ namespace T11ASP.NetProject.Controllers
                     ViewData["numberofproductsincart"] = numberofitems;
                 }
             }
+            else
+            {
+                //if user is not logged in, to use the sum of items in the session instead
+                ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
+            }
 
-            return View(allProducts);
+            ViewData["products"] = allProducts;
+            ViewData["session"] = username;
+
+
+            
+
+
+            return View();
         }
 
+        //this is the search bar
         [HttpPost]
         public async Task <IActionResult> Index(string searchterm)
         {
@@ -69,11 +79,6 @@ namespace T11ASP.NetProject.Controllers
             //var searchedProducts = context.Search(searchterm);
             
             return View(await searchedProducts.ToListAsync());
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

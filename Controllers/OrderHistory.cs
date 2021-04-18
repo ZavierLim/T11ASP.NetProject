@@ -16,6 +16,9 @@ namespace T11ASP.NetProject.Controllers
         {
             this.context = context;
         }
+        
+
+        //get order history page
         public IActionResult Index()
         {
             var currentsession = HttpContext.Session.GetString("sessionId");
@@ -37,6 +40,16 @@ namespace T11ASP.NetProject.Controllers
             {
                 ViewData["numberofproductsincart"] = numberofitems;
             }
+
+
+//            var itemReviewed = context.ProductComment.FirstOrDefault(x=>x.CustomerId==currentsession && x.Product);
+            //if else statement to check if item is reviewed already
+
+            //if (itemReviewed != null)
+            //{
+            //    ViewData["itemreviewed"] = true;
+            //}
+
 
             return View();
         }
