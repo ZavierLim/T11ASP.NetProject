@@ -13,36 +13,53 @@ namespace T11ASP.NetProject.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        //private readonly IProductListRepository _ProductList;
         private readonly AppDbContext context;
 
-        public HomeController(ILogger<HomeController> logger,AppDbContext context)
+        public HomeController(AppDbContext context)
         {
-            _logger = logger;
             this.context = context;
         }
+
         [HttpGet]
         public IActionResult Index()
-        {
+        {   
+            //add the cart session
             var allProducts = context.ProductList.ToList();
-            ViewData["products"] = allProducts;
-            ViewData["session"] = HttpContext.Session.GetString("sessionId");
-            var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
-            var numberofitems= cartexists.Count();
-            if (numberofitems<1)
+            string username = HttpContext.Session.GetString("sessionId");
+            var cartCount = HttpContext.Session.GetInt32("cartCount");
+            //if the user is logged in ,navigation bar to show the count of items in the cart, this data is passed to layout 
+            if (username != null)
             {
-                ViewData["numberofproductsincart"] = null;
+                if (cartCount == null)
+                {
+                    var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
+                    var numberofitems = cartexists.Sum(x => x.Quantity);
+                    if (numberofitems < 1)
+                    {
+                        HttpContext.Session.SetInt32("cartCount", 0);
+                        ViewData["numberofproductsincart"] = 0;
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetInt32("cartCount", numberofitems);
+                        ViewData["numberofproductsincart"] = numberofitems;
+                    }
+                }
             }
             else
             {
-                ViewData["numberofproductsincart"] = numberofitems;
+                //if user is not logged in, to use the sum of items in the session instead
+                ViewData["numberofproductsincart"] = cartCount;
             }
 
+            ViewData["numberofproductsincart"] = cartCount;
+            ViewData["products"] = allProducts;
+            ViewData["session"] = username;
 
-            return View(allProducts);
+            return View();
         }
 
+        //this is the search bar
         [HttpPost]
         public async Task <IActionResult> Index(string searchterm)
         {
@@ -63,11 +80,6 @@ namespace T11ASP.NetProject.Controllers
             //var searchedProducts = context.Search(searchterm);
             
             return View(await searchedProducts.ToListAsync());
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -24,6 +24,11 @@ namespace T11ASP.NetProject.Controllers
                 ViewData["checkoutitems"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomer).ToList();
 
             }
+            //when user is not logged in redirect to login page
+            else
+            {
+                return RedirectToAction("Index","Login");
+            }
 
             var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
             var numberofitems = cartexists.Count();
@@ -39,11 +44,16 @@ namespace T11ASP.NetProject.Controllers
             return View();
         }
 
+        //when user CLicks on "Make Payment" from the checkout page
         public IActionResult OrderConfirmed()
         {
             var currentsession = HttpContext.Session.GetString("sessionId");
             var currentcart = context.Cart.FirstOrDefault(x=>x.CustomerId==currentsession);
 
+            //TODO: 1st Scenarioif customer not logged in -> add in logic to redirect to login. then save the sessiondata cart to DB with that customer ID
+
+
+            //2nd scenario when the user is logged in: 
             if (currentsession!=null && currentcart!=null)
             {
                 var currentcartId = currentcart.CartId;
@@ -86,7 +96,7 @@ namespace T11ASP.NetProject.Controllers
                 }
 
 
-
+                //2nd scenario: when user is logged in and clicks Make payment. The items in the cart will be deleted from DB (because already added in orders)
                 var CartIdToDelete = context.Cart.Find(currentcartId);
                 context.Cart.Remove(CartIdToDelete);
                 context.SaveChanges();

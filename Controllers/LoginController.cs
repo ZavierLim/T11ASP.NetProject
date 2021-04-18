@@ -11,14 +11,15 @@ namespace T11ASP.NetProject.Controllers
 {
     public class LoginController : Controller
     {
-        //private readonly SQLCustomerInfo customerinfo;
+
         private readonly AppDbContext context;
 
         public LoginController(AppDbContext context)
         {
-            //this.customerinfo = customerinfo;
             this.context = context;
         }
+
+        //Get request to Login Page
         public IActionResult Index()
         {
             string usernameInSession = HttpContext.Session.GetString("sessionId");
@@ -26,8 +27,12 @@ namespace T11ASP.NetProject.Controllers
             {
                 return RedirectToAction("index","home");
             }
+            ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
+
             return View();
         }
+        
+        //Authenticate User
         public IActionResult Authenticate(string username, string password)
         {
             var customer = context.Customer.Where(e => e.CustomerId == username && e.Password == password).FirstOrDefault();
@@ -41,11 +46,15 @@ namespace T11ASP.NetProject.Controllers
                 return View("index");
             }
             
-            //if customer exist, set sessionID to his name
+            //if customer exist, set sessionID to customerId
             HttpContext.Session.SetString("sessionId", customer.CustomerId);
-            ViewData["userLoggedIn"] = customer.CustomerId;
-            return RedirectToAction("index", "home");
+            ViewData["sessionId"] = customer.CustomerId;
+
+            //go to cart after user logs in
+            return RedirectToAction("index", "Cart");
+
         }
+
         [HttpGet]
         public IActionResult Register()
         {

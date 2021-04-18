@@ -19,9 +19,10 @@ namespace T11ASP.NetProject.Models
         [ForeignKey("OrderId")]
         public virtual Orders Order { get; set; }
 
-        public double Rating { get; set; }
+        public int Rating { get; set; }
         public string Comment { get; set; }
 
+        public DateTime DateTimeofComment { get; set; }
 
     }
 }

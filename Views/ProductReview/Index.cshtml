@@ -3,6 +3,8 @@
 *@
 @{
     var product = (ProductList)ViewData["product"];
+    bool IsProductAlreadyReviewed = (bool)ViewData["IsProductAlreadyReviewed"];
+
 }
 
 @section scripts{
@@ -20,9 +22,47 @@
 
 <link rel="stylesheet" href="/css/ProductDetail.css">
 
+<style>
+    ul#starUl {
+        padding-left: 0;
+        overflow: hidden;
+    }
+
+        ul#starUl li {
+            float: left;
+            list-style: none;
+        }
+
+    .stars-outer {
+        display: inline-block;
+        position: relative;
+        font-family: FontAwesome;
+    }
+
+        .stars-outer::before {
+            content: "\f006 \ ";
+        }
+
+    .stars-inner {
+        display: inline-block;
+        position: relative;
+        font-family: FontAwesome;
+    }
+
+        .stars-inner::before {
+            content: "\f005 \ ";
+            color: #f8ce0b;
+        }
+
+
+
+    .stars-large {
+        font-size: large;
+    }
+</style>
 
 <h1>Product Reviews for @product.ProductName</h1>
-<form enctype="multipart/form-data" asp-controller="Cart" asp-action="addToCart" method="POST">
+<form enctype="multipart/form-data" asp-controller="ProductReview" asp-action="Index" method="POST">
     <div class="container bootdey">
         <div class="col-md-12">
             <section class="panel">
@@ -30,6 +70,7 @@
                     <div class="col-md-3">
                         <div class="pro-img-details" style="height:250px;width:250px">
                             <input hidden name="productId" value="@product.ProductId" />
+                            <input hidden name="orderId" value="@ViewData["orderid"]" />
                             <img src="@product.ImgUrl" alt="">
                             <hr />
                         </div>
@@ -47,23 +88,72 @@
 
                     </div>
 
-                    <div class="col-md-12">
-                        <!-- Rating star 60%=3 star. 2.5 star= 50%-->
-                        Your Rating: <div class="stars-outer stars-large">
-                            @*<div class="stars-inner" style="width:@(((product.Rating)*20)+"%")"> </div>*@
-                        </div>
-
-                    </div>
-                    <div class="col-md-12">
-                        <textarea name="productcomment" style="resize:none;width:100%;height:150px"></textarea>
-                        <p>
-                            <button class="btn btn-round btn-primary" type="button" formaction="/"> Submit Review</button>
-                        </p>
-                    </div>
-
+                    @if (IsProductAlreadyReviewed == true)
+                    {
+                <div class="col-md-12">
+                    <h3>You have already reviewed this item for this order.</h3>
+                    <a asp-controller="OrderHistory" asp-action="index" class="btn btn-success">Back to Order History</a>
                 </div>
 
-            </section>
+                    }
+                    else
+                    {
+                        <div class="col-md-12">
+                            <input hidden id="ProductRater" name="productRating" />
+                            <ul id="starUl">
+                                <li id="caption">Your Rating:&nbsp;</li>
+                                <li class="stars-outer stars-large"></li>
+                                <li class="stars-outer stars-large"></li>
+                                <li class="stars-outer stars-large"></li>
+                                <li class="stars-outer stars-large"></li>
+                                <li class="stars-outer stars-large"></li>
+                            </ul>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <textarea name="comment" style="resize:none;width:100%;height:150px"></textarea>
+                            <p>
+                                <button class="btn btn-round btn-primary" type="submit"> Submit Review</button>
+                            </p>
+                        </div>
+                    }
+                    </section>
         </div>
     </div>
 </form>
+
+<script>
+    var finalNum = 0;
+    var tempNum = 0;
+    var ul = document.getElementById("starUl");
+    var lis = ul.getElementsByTagName("li");
+    var productrater = document.getElementById("ProductRater");
+ 
+
+    function fnShow(num) {
+        finalNum = num || tempNum;
+        for (var i = 0; i < lis.length; i++) {
+            console.log(lis[i].id)
+            if (lis[i].id != "caption")
+                lis[i].className = i < finalNum ? "stars-inner stars-large" : "stars-outer stars-large";
+        }
+    }
+    for (var i = 1; i <= lis.length; i++) {
+        lis[i - 1].index = i;
+        lis[i - 1].onmouseover = function () {
+            fnShow(this.index);
+        }
+        lis[i - 1].onmouseout = function () { 
+            fnShow(0);
+        }
+        lis[i - 1].onclick = function () {
+            tempNum = this.index;
+            var FinalRating = (tempNum - 1);
+            productrater.setAttribute("value", FinalRating);
+
+        }
+
+
+    }
+</script>
