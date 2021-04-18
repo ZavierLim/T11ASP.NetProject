@@ -35,12 +35,14 @@ namespace T11ASP.NetProject.Controllers
                 Cart theCard = context.Cart.FirstOrDefault(x => x.CustomerId == sessionname);
                 List<CartDetails> cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId")).ToList();
                 string currentcustomerId = context.Customer.FirstOrDefault(x => x.CustomerId == sessionname).CustomerId;
+                ViewData["currentShoppingCart"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomerId).ToList();
+
                 //if there is not pending cart content
                 if (cartContent == null)
                 {
                     //pass the shopping cart stored in DB to view
                     
-                    ViewData["currentShoppingCart"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomerId).ToList();
+                   ViewData["currentShoppingCart"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomerId).ToList();
 
                     //This will update the number of items in the navigation bar
                     foreach (CartDetails cd in cartexists)
@@ -57,10 +59,13 @@ namespace T11ASP.NetProject.Controllers
                         HttpContext.Session.SetInt32("cartCount", numberofitems);
                     }
                 }
+
+
+                //if there is an existing cart
                 else
                 {
-                    // remove cart in db if it exist
-                    if (theCard != null)
+                    // remove cart in db if it exist, even if the customer is logged in.
+                    if (theCard != null) //if sessionId exist. means existing cart exist.
                     {
                         string existingCartId = theCard.CartId;
                         List<CartDetails> existingCartDetail = cartexists;
@@ -68,7 +73,7 @@ namespace T11ASP.NetProject.Controllers
                         {
                             context.CartDetails.Remove(c);
                         }
-                        context.Cart.Remove(theCard);
+                        context.Cart.Remove(theCard); //remove current cart
                         context.SaveChanges();
                     }
                     //generate new cart with details

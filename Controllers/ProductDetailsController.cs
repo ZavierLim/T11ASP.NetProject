@@ -56,8 +56,11 @@ namespace T11ASP.NetProject.Controllers
                     ViewData["numberofproductsincart"] = numberofitems;
                 }
             }
+            else
+            {
+                ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
+            }
 
-            ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
             //To show product reviews page
             var AllProductReviews = context.ProductComment.Where(x => x.ProductId == id).ToList();
             ViewData["AllProductReviews"] = AllProductReviews;
@@ -74,10 +77,7 @@ namespace T11ASP.NetProject.Controllers
             ProductList productAdded = context.ProductList.FirstOrDefault(x => x.ProductId == int.Parse(prodId));
             List<CartDetails> updatedCartContent = CartManager.updateCart(cartContent, productAdded, qty);
 
-            if (!(CartManager.duplicateItem(cartContent, productAdded)))
-                cartCount++;
-            else
-                cartCount = cartCount + qty;
+            cartCount = cartCount + qty;
 
             HttpContext.Session.SetString("cartContent", CartManager.ListToJsonString(updatedCartContent));
             HttpContext.Session.SetInt32("cartCount", cartCount);
