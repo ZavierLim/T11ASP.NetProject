@@ -5,6 +5,10 @@
     IEnumerable<ProductList> products = (IEnumerable<ProductList>)ViewData["products"];
 }
 
+@section scripts{
+    <script src="/js/AddToCart2.js"></script>
+}
+
 <form method="post" asp-controller="home" asp-action="index">
     <div class="input-group" style="margin-bottom:30px">
         <input id="search" type="search" class="form-control" value="@ViewData["searchedterm"]" name="searchterm" />
@@ -15,32 +19,31 @@
 <div class="card-deck col-sm-12">
     @foreach (var m in products)
     {
-            <div class="col-sm-4" enctype="multipart/form-data" action="/cart/addtocart">
-                <div class="card" style="min-width:20rem;max-width:35.5%;margin-bottom:20px">
-                    <div class="a">
-                        <img src="@m.ImgUrl" class="card-img-top imageThumbnail img_container" alt="...">
-                        <div class="badge_container">
-                            <a asp-controller="ProductDetails" asp-action="index" asp-route-id="@m.ProductId"
-                               class="btn btn-success img_description" id="btn1"> View» </a>
-                            <a asp-controller="Cart" asp-action="addtocart"
-                               class="btn btn-success img_description" id="btn1"> View» </a>
-                            <button type="submit" aspclass="btn btn-primary img_description" id=@m.ProductId>Add Cart</button>
-                        </div>
-                    </div>
 
-                    <div class="card-body">
-                        <div class="card-title">
-                            <input hidden name="ProductId" asp-for="@m.ProductId" value="@m.ProductId" />
-                            <input hidden name="Quantity" value="1" />
-                            <label name="mobileName" asp-for="@m.ProductName" id="mobile" style="color:darkred">@m.ProductName</label>
-                        </div>
-                        <p class="card-text">@m.ShortDescription</p>
-                    </div>
-                    <div class="card-footer">
-                        <h1 class="align-middle">$@m.UnitPrice</h1>
+        <div class="col-sm-4" enctype="multipart/form-data">
+            <div class="card" style="min-width:20rem;max-width:35.5%;margin-bottom:20px">
+                <div class="a">
+                    <img src="@m.ImgUrl" class="card-img-top imageThumbnail img_container" alt="...">
+                    <div class="badge_container">
+                        <a asp-controller="ProductDetails" asp-action="index" asp-route-id="@m.ProductId"
+                           class="btn btn-success img_description" id="btn1"> View» </a>
+                        <button type="submit" class="btn btn-primary img_description" id=@m.ProductId>Add Cart</button>
                     </div>
                 </div>
+
+                <div class="card-body">
+                    <div class="card-title">
+                        <input hidden name="ProductId" asp-for="@m.ProductId" value="@m.ProductId" />
+                        <input hidden name="Quantity" value="1" />
+                        <label name="mobileName" asp-for="@m.ProductName" id="mobile" style="color:darkred">@m.ProductName</label>
+                    </div>
+                    <p class="card-text">@m.ShortDescription</p>
+                </div>
+                <div class="card-footer">
+                    <h1 class="align-middle">$@m.UnitPrice</h1>
+                </div>
             </div>
+        </div>
     }
 </div>
 
@@ -75,8 +78,8 @@
 @*        function dialogbox(event) {
             let btn = event.currentTarget;
             console.log(btn);
-            window.alert("item added to cart");*@
-        }
+            window.alert("item added to cart");}*@
+
     } </script>
 
 

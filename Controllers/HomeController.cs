@@ -26,33 +26,35 @@ namespace T11ASP.NetProject.Controllers
             //add the cart session
             var allProducts = context.ProductList.ToList();
             string username = HttpContext.Session.GetString("sessionId");
-
+            var cartCount = HttpContext.Session.GetInt32("cartCount");
             //if the user is logged in ,navigation bar to show the count of items in the cart, this data is passed to layout 
             if (username != null)
             {
-                var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
-                var numberofitems = cartexists.Sum(x => x.Quantity);
-                if (numberofitems < 1)
+                if (cartCount == null)
                 {
-                    ViewData["numberofproductsincart"] = 0;
-                }
-                else
-                {
-                    ViewData["numberofproductsincart"] = numberofitems;
+                    var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
+                    var numberofitems = cartexists.Sum(x => x.Quantity);
+                    if (numberofitems < 1)
+                    {
+                        HttpContext.Session.SetInt32("cartCount", 0);
+                        ViewData["numberofproductsincart"] = 0;
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetInt32("cartCount", numberofitems);
+                        ViewData["numberofproductsincart"] = numberofitems;
+                    }
                 }
             }
             else
             {
                 //if user is not logged in, to use the sum of items in the session instead
-                ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
+                ViewData["numberofproductsincart"] = cartCount;
             }
 
+            ViewData["numberofproductsincart"] = cartCount;
             ViewData["products"] = allProducts;
             ViewData["session"] = username;
-
-
-            
-
 
             return View();
         }

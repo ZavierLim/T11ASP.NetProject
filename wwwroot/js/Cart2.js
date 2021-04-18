@@ -37,7 +37,8 @@ function updateCart() {
 
     //AJAX request to Controller
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "/Product/UpdateCartFromCart");
+
+    xhr.open("POST", "/Cart/UpdateCartFromCart");
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
 
     xhr.onreadystatechange = function () {

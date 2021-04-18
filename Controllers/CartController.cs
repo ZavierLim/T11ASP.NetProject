@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using T11ASP.NetProject.Models;
 using T11ASP.NetProject.Util;
 
@@ -33,24 +32,56 @@ namespace T11ASP.NetProject.Controllers
             //if sessionId exists
             if (sessionname != null)
             {
-                //pass the shopping cart stored in DB to view
-                var currentcustomer = context.Customer.FirstOrDefault(x => x.CustomerId == sessionname).CustomerId;
-                ViewData["currentShoppingCart"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomer).ToList();
-                var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
+                Cart theCard = context.Cart.FirstOrDefault(x => x.CustomerId == sessionname);
+                List<CartDetails> cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId")).ToList();
+                string currentcustomerId = context.Customer.FirstOrDefault(x => x.CustomerId == sessionname).CustomerId;
+                //if there is not pending cart content
+                if (cartContent == null)
+                {
+                    //pass the shopping cart stored in DB to view
+                    
+                    ViewData["currentShoppingCart"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomerId).ToList();
 
-                //This will update the number of items in the navigation bar
-                foreach (CartDetails cd in cartexists)
-                {
-                    numberofitems = cd.Quantity + numberofitems;
-                }
-                if (numberofitems < 1)
-                {
-                    ViewData["numberofproductsincart"] = null;
+                    //This will update the number of items in the navigation bar
+                    foreach (CartDetails cd in cartexists)
+                    {
+                        numberofitems = cd.Quantity + numberofitems;
+                    }
+                    if (numberofitems < 1)
+                    {
+                        ViewData["numberofproductsincart"] = null;
+                    }
+                    else
+                    {
+                        ViewData["numberofproductsincart"] = numberofitems;
+                        HttpContext.Session.SetInt32("cartCount", numberofitems);
+                    }
                 }
                 else
-                {
-                    ViewData["numberofproductsincart"] = numberofitems;
-                    HttpContext.Session.SetInt32("cartCount", numberofitems);
+                {   // remove cart in db if it exist
+                    if (theCard != null)
+                    {
+                        string existingCartId = theCard.CartId;
+                        List<CartDetails> existingCartDetail = cartexists;
+                        foreach (CartDetails c in existingCartDetail)
+                        {
+                            context.CartDetails.Remove(c);
+                        }
+                        context.Cart.Remove(theCard);
+                        context.SaveChanges();
+                    }
+                    //generate new cart with details
+
+                    List<CartDetails> cd = CartManager.JsonStringToList(cartContent);
+                    CartManager.saveCart(context, cd, sessionname);
+
+                    List<CartDetails> cd1 = context.CartDetails.Where(x => x.Cart.CustomerId == sessionname).ToList();
+                    
+                    
+                    ViewData["currentShoppingCart"] = cd1;
+                    ViewData["cartContent"] = CartManager.ListToDictionary(context, cd1);
+
+                    ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
                 }
             }
 

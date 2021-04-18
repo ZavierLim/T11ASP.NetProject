@@ -24,6 +24,11 @@ namespace T11ASP.NetProject.Controllers
                 ViewData["checkoutitems"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomer).ToList();
 
             }
+            //when user is not logged in redirect to login page
+            else
+            {
+                return RedirectToAction("Index","Login");
+            }
 
             var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
             var numberofitems = cartexists.Count();
