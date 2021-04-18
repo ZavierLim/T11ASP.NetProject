@@ -49,15 +49,49 @@
         <tbody>
             @if (cartContent == null)
             {
-                <tr>
-                    <td style="font-size:20px">
-                        There are no items in the cart
-                    </td>
-                </tr>
+                @*if the customer is logged in, he can see his cart*@
+                if (shoppingcart != null)
+                {
+                    @foreach (var entry in shoppingcart)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    count++;}@count
+                                </td>
+                                <td>
+                                    <img src=@entry.ProductList.ImgUrl style="overflow:hidden; position:relative;width:50px;height:50px" />
+                                </td>
+                                <td>@entry.ProductList.ProductName</td>
+                                <td>$@entry.ProductList.UnitPrice</td>
+                                <td>
+                                    @*<a asp-controller="AddtoCart" asp-action="additem" asp-route-id="@entry.Key.ProductID" class="btn btn-success">Add</a>*@
+                                    <input id=@entry.ProductId class="quantityInput" type="number" min="1" tyle="width:30px" name=@("prodId"+entry.ProductId) value="@entry.Quantity" />
+                                    @*<a asp-controller="AddtoCart" asp-action="delete" asp-route-id="@entry.Key.ProductID" class="btn btn-warning">Remove</a>*@
+                                </td>
+                                <td>@{subtotal = entry.Quantity * entry.ProductList.UnitPrice;}<span id=@("itemSubtotal"+ entry.ProductId)>@subtotal</span></td>
+                                <td>
+
+                                    <a id=@("cancel" + entry.ProductId) class="btn btn-danger" asp-controller="Cart" asp-action="Removeitemfromcart" asp-route-productId="@entry.ProductId" asp-route-quantity="@entry.Quantity" asp-route-cartId="@entry.CartId" )>Delete Item</a>
+
+                                </td>
+                            </tr>
+                        }
+
+                }
+                else
+                {
+                    <tr>
+                        <td style="font-size:20px">
+                            There are no items in the cart
+                        </td>
+                    </tr>
+
+                }
             }
             else
             {
-
+                @*if the customer add item and login to his account*@
 
                 @foreach (KeyValuePair<ProductList, int> entry in cartContent)
                 {
@@ -79,7 +113,7 @@
                             <td>@{subtotal = (double)entry.Value * entry.Key.UnitPrice;}<span id=@("itemSubtotal"+ entry.Key.ProductId)>@subtotal</span></td>
                             <td>
 
-                                <a id=@("cancel" + entry.Key.ProductId) class="btn btn-danger" asp-controller="Cart" asp-action="DeleteItem" asp-route-id="@entry.Key.ProductId" )>Delete Item</a>
+                                <a id=@("cancel" + entry.Key.ProductId) class="btn btn-danger" asp-controller="Cart" asp-action="DeleteItem" asp-route-id="@entry.Key.ProductId" asp-route-qty="@entry.Value" )>Delete Item</a>
 
                             </td>
                         </tr>

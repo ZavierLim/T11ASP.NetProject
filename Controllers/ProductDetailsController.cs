@@ -46,7 +46,7 @@ namespace T11ASP.NetProject.Controllers
             if (sessionname != null)
             {
                 var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
-                var numberofitems = cartexists.Count();
+                var numberofitems = cartexists.Sum(x=>x.Quantity);
                 if (numberofitems < 1)
                 {
                     ViewData["numberofproductsincart"] = null;
@@ -58,7 +58,6 @@ namespace T11ASP.NetProject.Controllers
             }
 
             ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
-
             //To show product reviews page
             var AllProductReviews = context.ProductComment.Where(x => x.ProductId == id).ToList();
             ViewData["AllProductReviews"] = AllProductReviews;
