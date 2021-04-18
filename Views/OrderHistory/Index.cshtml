@@ -8,6 +8,7 @@
     //    + "<br><input type='submit' value='submit'>"
     //    + "</form>";
     int count = 1;
+    //bool itemreviewed = (bool)ViewData["itemreviewed"];
 }
 
 
@@ -52,41 +53,51 @@
 
                                     @foreach (var product in order.OrderDetails)
                                     {
-                                        <tr>
-                                            <td>
-                                                <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="@product.ProductList.ImgUrl" style="width:75%;height:75%" /></div>
-                                                <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p name="productId" value="@product.ProductId">@product.ProductList.ProductName</p></div>
-                                            </td>
-                                            <td><div>@product.Quantity</div></td>
-                                            <td><div>@{subtotal = product.Quantity * product.ProductList.UnitPrice;}@subtotal</div></td>
+                                <tr>
+                                    <td>
+                                        <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="@product.ProductList.ImgUrl" style="width:75%;height:75%" /></div>
+                                        <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p name="productId" value="@product.ProductId">@product.ProductList.ProductName</p></div>
+                                    </td>
+                                    <td><div>@product.Quantity</div></td>
+                                    <td><div>@{subtotal = product.Quantity * product.ProductList.UnitPrice;}@subtotal</div></td>
 
-                                            @if (product.Quantity == 1)
-                                            {
-                                                @foreach (var activationcode in product.ActivationCodes)
-                                                {
-                                                    <td><div>@activationcode.ActivationKey</div></td>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                            Activation Codes
-                                                            <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                                            @foreach (var activationcode in product.ActivationCodes)
-                                                            {
-                                                                <li><a href="#">@activationcode.ActivationKey</a></li>
-                                                            }
+                                    @if (product.Quantity == 1)
+                                    {
+                                        @foreach (var activationcode in product.ActivationCodes)
+                                        {
+                                            <td><div>@activationcode.ActivationKey</div></td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    Activation Codes
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                    @foreach (var activationcode in product.ActivationCodes)
+                                                    {
+                                                        <li><a href="#">@activationcode.ActivationKey</a></li>
+                                                    }
 
-                                                        </ul>
-                                                    </div>
-                                                </td>
-                                            }
-                                            <td><a class="btn btn-info" asp-controller="ProductReview" asp-action="index" asp-route-productId="@product.ProductList.ProductId" asp-route-orderId="@product.OrderId">Review</a></td>
-                                        </tr>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    }
+                                    @*if item already reviewed*@
+                                    @*@if (itemreviewed)
+                                    {
+                                        <button class="btn btn-round btn-block" type="submit"> Item Reviewed</button>
+                                    }
+                                    else
+                                    {*@
+                                        <td><a class="btn btn-info" asp-controller="ProductReview" asp-action="index" asp-route-productId="@product.ProductList.ProductId" asp-route-orderId="@product.OrderId">Review</a></td>
+                                    @*}*@
+
+
+                                </tr>
                                     }
                             </tbody>
                         </table>
