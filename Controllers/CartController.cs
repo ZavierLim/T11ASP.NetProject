@@ -58,7 +58,8 @@ namespace T11ASP.NetProject.Controllers
                     }
                 }
                 else
-                {   // remove cart in db if it exist
+                {
+                    // remove cart in db if it exist
                     if (theCard != null)
                     {
                         string existingCartId = theCard.CartId;
@@ -180,7 +181,9 @@ namespace T11ASP.NetProject.Controllers
                 }
 
                 context.SaveChanges();
+                HttpContext.Session.SetInt32("cartCount",0);
             }
+
             return RedirectToAction("index", "cart");
         }
 
