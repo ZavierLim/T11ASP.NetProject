@@ -51,7 +51,7 @@ namespace T11ASP.NetProject.Controllers
             HttpContext.Session.SetString("sessionId", customer.CustomerId);
             ViewData["sessionId"] = customer.CustomerId;
 
-
+            //this part will combine the existing cart in DB with the sessiondata cart
             string isthereanyitemasguest = HttpContext.Session.GetString("cartContent");
             if(isthereanyitemasguest!=null)
             {
@@ -109,6 +109,7 @@ namespace T11ASP.NetProject.Controllers
             }
             HttpContext.Session.Clear();
             HttpContext.Session.SetString("sessionId", customer.CustomerId);
+ 
 
             //go to cart after user logs in
             return RedirectToAction("index", "Cart");
