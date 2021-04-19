@@ -107,11 +107,11 @@ else
                                 @product.ProductName
                             </a>
                         </h3>
-                        <!-- Rating star-->
-                        4.8 &nbsp; <div class="stars-outer stars-large">
-                            <div class="stars-inner" style="width:95%"> </div>
+                        <!-- Rating star 60%=3 star. 2.5 star= 50%-->
+                        @prodRating &nbsp; <div class="stars-outer stars-large">
+                            <div class="stars-inner" style="width:@(((prodRating) * 20) + "%")"> </div>
                         </div>
-                        <span class="body-textStyle">&nbsp;(3 ratings)</span>
+                        <span class="body-textStyle">&nbsp;(@numberofProds ratings)</span>
 
                         <!-- Price -->
                         <div class="product_meta">
@@ -131,7 +131,7 @@ else
                             </div>
                             <p>
                                 <button type="submit" class="btn btn-round btn-outline-primary" asp-controller="ProductDetails" asp-action="CartFromDetail" asp-route-cmd="addToCart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                                @*<button type="submit" class="btn btn-round btn-primary" asp-controller="ProductDetails" asp-action="CartFromDetail"> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>*@
+                                <button type="submit" class="btn btn-round btn-primary" asp-controller="ProductDetails" asp-action="CartFromDetail"> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>
                             </p>
                         </form>
                     </div>
