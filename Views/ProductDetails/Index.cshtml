@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Detail";
+    int numbertobuy;
     ProductList product = (ProductList)ViewData["Product"];
     // string prodRating = (string)ViewData["ProductRating"];
     float prodRating = Convert.ToSingle(ViewData["prodRating"]);
@@ -71,13 +72,14 @@
 
                                 <div class="form-group">
                                     <label>Quantity</label>
-                                    <input name="Quantity" type="number" placeholder="1" min="1" value="1" class="form-control" style="width: 120px">
+                                    <input name="Quantity" id="qtyvalue" type="number" placeholder="1" min="1" value="1" class="form-control" style="width: 120px">
                                 </div>
 
-                            <p>
-                                <button class="btn btn-round btn-outline-primary" type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                                <button class="btn btn-round btn-primary" name="buynow" value="yes" type="submit"> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>
-                            </p>
+                                <p>
+                                    <button class="btn btn-round btn-outline-primary" type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                                    @*<button class="btn btn-round btn-primary" name="buynow" value="yes" type="submit"> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>
+                                    <a type="submit" class="btn btn-round btn-primary" asp-controller="Cart" asp-action="AddtoCart" asp-route-productId="@product.ProductId" asp-route-buynow="true" asp-route-quantity="1"> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></a>*@
+                                </p>
 
                         </div>
                     </div>
@@ -87,7 +89,7 @@
     </form>
 }
 
-@*if customer is not logged in*@
+
 else
 {
     <div class="container bootdey">
@@ -129,7 +131,7 @@ else
                             </div>
                             <p>
                                 <button type="submit" class="btn btn-round btn-outline-primary" asp-controller="ProductDetails" asp-action="CartFromDetail" asp-route-cmd="addToCart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                                <button type="submit" class="btn btn-round btn-primary" asp-controller="ProductDetails" asp-action="CartFromDetail"> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>
+                                @*<button type="submit" class="btn btn-round btn-primary" asp-controller="ProductDetails" asp-action="CartFromDetail"> Buy Now &nbsp; <i class="fa fa-arrow-right"></i></button>*@
                             </p>
                         </form>
                     </div>
@@ -184,4 +186,3 @@ else
     </section>
 
 }
-

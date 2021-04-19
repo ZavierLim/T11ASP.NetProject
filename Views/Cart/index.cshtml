@@ -1,15 +1,11 @@
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
     ViewBag.Title = "ShoppingCart";
     double subtotal = 0;
-    var total = 0.0;
-    int count = 0;
+    var total = 0.0; //this is from guest checkout
+    int count = 0; //this is from registered users
+    double totalinproduct =0;
 
     List<CartDetails> shoppingcart = (List<CartDetails>)ViewData["currentShoppingCart"];
-
-    //var count = 0;
     Dictionary<ProductList, int> cartContent = (Dictionary<ProductList, int>)ViewData["cartContent"];
 
 
@@ -65,11 +61,13 @@
                                 <td>@entry.ProductList.ProductName</td>
                                 <td>$@entry.ProductList.UnitPrice</td>
                                 <td>
-                                    @*<a asp-controller="AddtoCart" asp-action="additem" asp-route-id="@entry.Key.ProductID" class="btn btn-success">Add</a>*@
-                                    <input id=@entry.ProductId class="quantityInput" type="number" min="1" tyle="width:30px" name=@("prodId"+entry.ProductId) value="@entry.Quantity" />
-                                    @*<a asp-controller="AddtoCart" asp-action="delete" asp-route-id="@entry.Key.ProductID" class="btn btn-warning">Remove</a>*@
+                                    <a asp-controller="cart" asp-action="addtocart" asp-route-productId="@entry.ProductId" asp-route-quantity="1" asp-route-cartId="@entry.CartId" class="btn btn-success">+</a>
+                                    @entry.Quantity
+                                    <label id=@entry.ProductId class="quantityInput" type="number" min="1" tyle="width:30px" name=@("prodId"+entry.ProductId) value="@entry.Quantity" />
+                                    <a asp-controller="cart" asp-action="removeitemfromcart" asp-route-productId="@entry.ProductId" asp-route-quantity="1" asp-route-cartId="@entry.CartId" class="btn btn-warning">-</a>
                                 </td>
                                 <td>@{subtotal = entry.Quantity * entry.ProductList.UnitPrice;}<span id=@("itemSubtotal"+ entry.ProductId)>@subtotal</span></td>
+                                <hidden @(totalinproduct+=subtotal)></hidden>
                                 <td>
 
                                     <a id=@("cancel" + entry.ProductId) class="btn btn-danger" asp-controller="Cart" asp-action="Removeitemfromcart" asp-route-productId="@entry.ProductId" asp-route-quantity="@entry.Quantity" asp-route-cartId="@entry.CartId" )>Delete Item</a>
@@ -106,14 +104,12 @@
                             <td>@entry.Key.ProductName</td>
                             <td>$@entry.Key.UnitPrice</td>
                             <td>
-                                @*<a asp-controller="AddtoCart" asp-action="additem" asp-route-id="@entry.Key.ProductID" class="btn btn-success">Add</a>*@
                                 <input id=@entry.Key.ProductId class="quantityInput" type="number" min="1" tyle="width:30px" name=@("prodId"+entry.Key.ProductId) value="@entry.Value" />
-                                @*<a asp-controller="AddtoCart" asp-action="delete" asp-route-id="@entry.Key.ProductID" class="btn btn-warning">Remove</a>*@
                             </td>
                             <td>@{subtotal = (double)entry.Value * entry.Key.UnitPrice;}<span id=@("itemSubtotal"+ entry.Key.ProductId)>@subtotal</span></td>
                             <td>
 
-                                <a id=@("cancel" + entry.Key.ProductId) class="btn btn-danger" asp-controller="Cart" asp-action="DeleteItem" asp-route-id="@entry.Key.ProductId" asp-route-qty="@entry.Value" )>Delete Item</a>
+                                <a id=@("c" + entry.Key.ProductId) class="btn btn-danger" asp-controller="Cart" asp-action="DeleteItem" asp-route-id="@entry.Key.ProductId" asp-route-qty="@entry.Value" )>Delete Item</a>
 
                             </td>
                         </tr>
@@ -130,18 +126,30 @@
                 <td>
                     Total
                 </td>
-                <td>
-                    <a asp-controller="">
-                        $<span id="totalPrice">@totalPrice</span>
-                    </a>
-                </td>
+                @if (shoppingcart != null)
+                {
+                    <td>
+                        <a asp-controller="">
+                            $<span id="totalPrice">@totalinproduct</span>
+                        </a>
+                    </td>
+
+                }
+                else
+                {
+                    <td>
+                        <a asp-controller="">
+                            $<span id="totalPrice">@totalPrice</span>
+                        </a>
+                    </td>
+
+                }
                 <td></td>
             </tr>
         </tfoot>
     </table>
 
     <div id="footer" width="100%" height="60px">
-        @*<button type="button" id="btnprint" class="btn btn-primary" disabled>Print</button>*@
         <a asp-controller="Home" asp-action="index" class="btn btn-success">Continue Shopping</a>
         <a type="button" id="btn" class="btn btn-warning" asp-controller="Checkout" asp-action="index">Place Order</a>
 
@@ -149,17 +157,3 @@
     </div>
 
 </div>
-
-<script>
-    <script type="text/javascript">
-        function refreshpage(e) {
-            e = e || window.event;
-        var key = e.keyCode;
-        (if key == 13) {
-            return true;
-        }
-    }
-</script>
-
-
-</script>

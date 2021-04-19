@@ -18,6 +18,7 @@ namespace T11ASP.NetProject.Controllers
         public IActionResult Index()
         {
             var currentsession = HttpContext.Session.GetString("sessionId");
+            ViewData["session"] = currentsession;
             if (currentsession != null)
             {
                 var currentcustomer = context.Customer.FirstOrDefault(x => x.CustomerId == currentsession).CustomerId;
