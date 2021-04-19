@@ -236,6 +236,20 @@ namespace T11ASP.NetProject.Controllers
             HttpContext.Session.SetString("cartContent", CartManager.ListToJsonString(updatedCartContent));
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult DeleteItem([FromBody] ListCart listCart)
+        {
+            string cartContent = HttpContext.Session.GetString("cartContent");
+            int cartCount = HttpContext.Session.GetInt32("cartCount") ?? 0;
+            ProductList productAdded = context.ProductList.FirstOrDefault(x => x.ProductId == int.Parse(listCart.ProductId));
+            List<CartDetails> updatedCartContent = CartManager.editCart(cartContent, productAdded, 0);
+            cartCount = cartCount - listCart.Quantity;
+            Debug.WriteLine(listCart.Quantity);
+            HttpContext.Session.SetInt32("cartCount", cartCount);
+            HttpContext.Session.SetString("cartContent", CartManager.ListToJsonString(updatedCartContent));
+            return RedirectToAction("Index");
+        }
     }
 }
     

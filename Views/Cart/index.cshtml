@@ -21,7 +21,7 @@
 }
 
 @section scripts{
-    <script src="/js/Cart2.js"></script>
+    <script src="/js/Cart3.js"></script>
 }
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -109,7 +109,7 @@
                             <td>@{subtotal = (double)entry.Value * entry.Key.UnitPrice;}<span id=@("itemSubtotal"+ entry.Key.ProductId)>@subtotal</span></td>
                             <td>
 
-                                <a id=@("c" + entry.Key.ProductId) class="btn btn-danger" asp-controller="Cart" asp-action="DeleteItem" asp-route-id="@entry.Key.ProductId" asp-route-qty="@entry.Value" )>Delete Item</a>
+                                <button id=@("c" + entry.Key.ProductId) class="btn btn-danger")>Delete Item</button>
 
                             </td>
                         </tr>

@@ -5,8 +5,6 @@ window.onload = function () {
     var elements = document.getElementsByClassName("quantityInput");
     var deleteElements = document.getElementsByClassName("btn btn-danger");
 
-    console.log(deleteElements);
-
     for (var i = 0; i < elements.length; i++) {
 
         //elements[i].addEventListener("input", updateCart(elemValue, elements[i]));
