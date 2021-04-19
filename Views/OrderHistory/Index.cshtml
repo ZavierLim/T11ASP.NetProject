@@ -45,10 +45,10 @@
                                 <tr>
                                     <td>
                                         <div style="float: left;height:100%;width:20%;display: table-cell;"><img src="@product.ProductList.ImgUrl" style="width:75%;height:75%" /></div>
-                                        <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p name="productId" value="@product.ProductId">@product.ProductList.ProductName</p></div>
+                                        <div style="float: left;height:100%;width:80%;margin-bottom:0;"><p name="productId" value="@product.ProductId">@product.ProductList.ProductName at $@product.UnitPrice each</p></div>
                                     </td>
                                     <td><div>@product.Quantity</div></td>
-                                    <td><div>@{subtotal = product.Quantity * product.ProductList.UnitPrice;}@subtotal</div></td>
+                                    <td><div>@{subtotal = product.Quantity * product.ProductList.UnitPrice;}$@subtotal</div></td>
 
                                     @if (product.Quantity == 1)
                                     {

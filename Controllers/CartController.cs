@@ -28,7 +28,7 @@ namespace T11ASP.NetProject.Controllers
             string cartContent = HttpContext.Session.GetString("cartContent");
             ViewData["session"] = sessionname;
 
-            //if sessionId exists--user is loggedin, retrieve current cart from DB
+            //if sessionId exists--user is loggedin, retrieve current cart from DB. Sessiondata items are already combined during login.
             if (sessionname != null)
             {
                 Cart theCard = context.Cart.FirstOrDefault(x => x.CustomerId == sessionname);
@@ -36,53 +36,22 @@ namespace T11ASP.NetProject.Controllers
                 string currentcustomerId = context.Customer.FirstOrDefault(x => x.CustomerId == sessionname).CustomerId;
                 ViewData["currentShoppingCart"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomerId).ToList();
 
-                //if User did not add items as a Guest previously
-                if (cartContent == null)
+                //This will update the number of items in the navigation bar
+                foreach (CartDetails cd in cartexists)
                 {
-                    //pass the shopping cart stored in DB to view                    
-                   ViewData["currentShoppingCart"] = context.CartDetails.Where(x => x.Cart.CustomerId == currentcustomerId).ToList();
-                    //This will update the number of items in the navigation bar
-                    foreach (CartDetails cd in cartexists)
-                    {
-                        numberofitems = cd.Quantity + numberofitems;
-                    }
-                    if (numberofitems < 1)
-                    {
-                        ViewData["numberofproductsincart"] = null;
-                    }
-                    else
-                    {
-                        ViewData["numberofproductsincart"] = numberofitems;
-                        HttpContext.Session.SetInt32("cartCount", numberofitems);
-                    }
+                    numberofitems = cd.Quantity + numberofitems;
                 }
-                //User added items as a Guest previously
+                if (numberofitems < 1)
+                {
+                    ViewData["numberofproductsincart"] = null;
+                }
                 else
                 {
-                    //Cart added by user as a guest will replace cart in DB
-                    if (theCard != null)
-                    {
-                        string existingCartId = theCard.CartId;
-                        List<CartDetails> existingCartDetail = cartexists;
-                        foreach (CartDetails c in existingCartDetail)
-                        {
-                            context.CartDetails.Remove(c);
-                        }
-                        context.Cart.Remove(theCard);
-                        context.SaveChanges();
-                    }
-
-                    //generate new cart with details and display in Cart
-                    List<CartDetails> cd = CartManager.JsonStringToList(cartContent);
-                    CartManager.saveCart(context, cd, sessionname);
-                    List<CartDetails> cd1 = context.CartDetails.Where(x => x.Cart.CustomerId == sessionname).ToList();
-                    ViewData["currentShoppingCart"] = cd1;
-                    ViewData["cartContent"] = CartManager.ListToDictionary(context, cd1);
-                    ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
+                    ViewData["numberofproductsincart"] = numberofitems;
+                    HttpContext.Session.SetInt32("cartCount", numberofitems);
                 }
             }
-
-            //if sessionId does not exists--user is not loggedin, and guests has items in cart
+            //if sessionId does not exists--user is not loggedin, and guests has items in cart, cart shows item in sessiondata
             else
             {
                 if (cartContent != null)
