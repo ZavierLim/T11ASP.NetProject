@@ -1,7 +1,6 @@
 @{
     ViewBag.Title = "ShoppingCart";
     double subtotal = 0;
-    var total = 0.0; //this is from guest checkout
     int count = 0; //this is from registered users
     double totalinproduct =0;
 
@@ -67,7 +66,7 @@
                                     <a asp-controller="cart" asp-action="removeitemfromcart" asp-route-productId="@entry.ProductId" asp-route-quantity="1" asp-route-cartId="@entry.CartId" class="btn btn-warning">-</a>
                                 </td>
                                 <td>@{subtotal = entry.Quantity * entry.ProductList.UnitPrice;}<span id=@("itemSubtotal"+ entry.ProductId)>@subtotal</span></td>
-                                <hidden @(totalinproduct+=subtotal)></hidden>
+                                <hidden @(totalinproduct += subtotal)></hidden>
                                 <td>
 
                                     <a id=@("cancel" + entry.ProductId) class="btn btn-danger" asp-controller="Cart" asp-action="Removeitemfromcart" asp-route-productId="@entry.ProductId" asp-route-quantity="@entry.Quantity" asp-route-cartId="@entry.CartId" )>Delete Item</a>
@@ -87,9 +86,9 @@
 
                 }
             }
+            @*if the customer add item and login to his account*@
             else
             {
-                @*if the customer add item and login to his account*@
 
                 @foreach (KeyValuePair<ProductList, int> entry in cartContent)
                 {
@@ -109,7 +108,7 @@
                             <td>@{subtotal = (double)entry.Value * entry.Key.UnitPrice;}<span id=@("itemSubtotal"+ entry.Key.ProductId)>@subtotal</span></td>
                             <td>
 
-                                <button id=@("c" + entry.Key.ProductId) class="btn btn-danger")>Delete Item</button>
+                                <button id=@("c" + entry.Key.ProductId) class="btn btn-danger" )>Delete Item</button>
 
                             </td>
                         </tr>

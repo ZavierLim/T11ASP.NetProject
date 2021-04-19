@@ -21,7 +21,7 @@ namespace T11ASP.NetProject.Controllers
         //get order history page
         public IActionResult Index()
         {
-            //this will get all the orders and display in order history page
+            //Get all orders from customer and display in order history page
             var currentsession = HttpContext.Session.GetString("sessionId");
             var orderid = context.Orders.Where(x => x.CustomerId == currentsession).ToList().OrderByDescending(x=>x.DateofPurchase);
             ViewData["session"] = currentsession;
@@ -30,7 +30,7 @@ namespace T11ASP.NetProject.Controllers
                 ViewData["orders"] = orderid;
             }
 
-            //this part will update number in the navigation bar
+            //Pass data to cartnumber in layout view
             var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
             var numberofitems = cartexists.Sum(x => x.Quantity);
             if (numberofitems < 1)

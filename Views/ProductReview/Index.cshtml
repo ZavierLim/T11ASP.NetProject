@@ -8,57 +8,48 @@
 }
 
 @section scripts{
-    <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-    <!-- Font Awesome Script for star rating-->
     <script src="https://use.fontawesome.com/c94815eee1.js"></script>
 }
-<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
 <link rel="stylesheet" href="/css/ProductDetail.css">
 
 <style>
-    ul#starUl {
-        padding-left: 0;
-        overflow: hidden;
+ul#starUl {
+    padding-left: 0;
+    overflow: hidden;
+}
+
+    ul#starUl li {
+        float: left;
+        list-style: none;
     }
 
-        ul#starUl li {
-            float: left;
-            list-style: none;
-        }
+.stars-outer {
+    display: inline-block;
+    position: relative;
+    font-family: FontAwesome;
+}
 
-    .stars-outer {
-        display: inline-block;
-        position: relative;
-        font-family: FontAwesome;
+    .stars-outer::before {
+        content: "\f006 \ ";
     }
 
-        .stars-outer::before {
-            content: "\f006 \ ";
-        }
+.stars-inner {
+    display: inline-block;
+    position: relative;
+    font-family: FontAwesome;
+}
 
-    .stars-inner {
-        display: inline-block;
-        position: relative;
-        font-family: FontAwesome;
+    .stars-inner::before {
+        content: "\f005 \ ";
+        color: #f8ce0b;
     }
 
-        .stars-inner::before {
-            content: "\f005 \ ";
-            color: #f8ce0b;
-        }
-
-
-
-    .stars-large {
-        font-size: large;
-    }
+.stars-large {
+    font-size: large;
+}
 </style>
 
 <h1>Product Reviews for @product.ProductName</h1>
@@ -94,7 +85,6 @@
                     <h3>You have already reviewed this item for this order.</h3>
                     <a asp-controller="OrderHistory" asp-action="index" class="btn btn-success">Back to Order History</a>
                 </div>
-
                     }
                     else
                     {
@@ -110,7 +100,6 @@
                             </ul>
                         </div>
 
-
                         <div class="col-md-12">
                             <textarea name="comment" style="resize:none;width:100%;height:150px"></textarea>
                             <p>
@@ -118,7 +107,8 @@
                             </p>
                         </div>
                     }
-                    </section>
+                </div>
+            </section>
         </div>
     </div>
 </form>

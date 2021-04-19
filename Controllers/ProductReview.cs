@@ -16,7 +16,7 @@ namespace T11ASP.NetProject.Controllers
         {
             this.context = context;
         }
-        //get product reviews page
+
         public IActionResult Index(int productId,string orderId)
         {
             var product = context.ProductList.Find(productId);
@@ -42,7 +42,7 @@ namespace T11ASP.NetProject.Controllers
             return View();
         }
 
-        //post comment to DB and comments will show in product details page
+        //Add comments to DB
         [HttpPost]
         public IActionResult Index(int productId,string productRating,string comment,string orderId)
         {
