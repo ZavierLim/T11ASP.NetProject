@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Home Page";
     IEnumerable<ProductList> products = (IEnumerable<ProductList>)ViewData["products"];
+    var sessionId = ViewData["session"];
 }
 
 <form method="post" asp-controller="home" asp-action="index">
@@ -22,7 +23,15 @@
                         <div class="badge_container">
                             <a asp-controller="ProductDetails" asp-action="index" asp-route-id="@m.ProductId"
                                class="btn btn-success img_description" id="btn1"> View» </a>
-                            <button type="submit" class="btn btn-primary img_description" id=@m.ProductId asp-controller="Cart" asp-action="AddtoCart" asp-route-productId="@m.ProductId" asp-route-quantity="1" asp-route-buynow="false">Add Cart</button>
+                            @if (sessionId != null)
+                            {
+                                <a type="submit" class="btn btn-primary img_descriptionwhenloggedin" id=@m.ProductId asp-controller="Cart" asp-action="AddtoCart" asp-route-productId="@m.ProductId" asp-route-quantity="1" asp-route-buynow="false">Add Cart</a>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-primary img_description" id=@m.ProductId asp-controller="Cart" asp-action="AddtoCart" asp-route-productId="@m.ProductId" asp-route-quantity="1" asp-route-buynow="false">Add Cart</button>
+                            }
+
                         </div>
                     </div>
 
@@ -45,16 +54,10 @@
 <script>
     window.onload = function () {
         let elemlist = document.querySelectorAll(".card-img-top");
-        let btnlist = document.querySelectorAll("#btn2");
         for (let i = 0; i < elemlist.length; i++) {
             elemlist[i].addEventListener("mouseover", mouseOver.bind(this));
             elemlist[i].addEventListener("mouseleave", mouseExit.bind(this));
         }
-@*        for (let i = 0; i < btnlist.length; i++) {
-            btnlist[i].addEventListener("click", dialogbox.bind(this));
-        }
-        console.log(elemlist.length)
-        console.log(btnlist.length)*@
 
 
         function mouseOver(event) {

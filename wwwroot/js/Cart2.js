@@ -3,6 +3,9 @@ var oldValue = "";
 var totalPrice = "";
 window.onload = function () {
     var elements = document.getElementsByClassName("quantityInput");
+    var deleteElements = document.getElementsByClassName("btn btn-danger");
+
+    console.log(deleteElements);
 
     for (var i = 0; i < elements.length; i++) {
 
@@ -14,7 +17,47 @@ window.onload = function () {
             updateCart();
         }
     }
+
+    for (var i = 0; i < deleteElements.length; i++) {
+        deleteElements[i].onclick = function () {
+            deleteProduct();
+        }
+
+    }
 }
+
+function deleteProduct() {
+    let elem = event.currentTarget;
+    let elemid = elem.getAttribute("id");
+    let prodId = elemid.substring(1);
+    let textFieldElem = document.getElementById(prodId);
+    let counter = document.getElementById("lblCartCount");
+    window.console.log(textFieldElem.value);
+    counter.textContent = parseInt(counter.textContent) - parseInt(textFieldElem.value);
+    let xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "/Cart/DeleteItem");
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status !== 200)
+
+                return;
+            location.reload();
+        }
+    }
+
+
+
+    let data = {
+        "productId": prodId,
+        "quantity": parseInt(textFieldElem.value) || 0
+    }
+
+    xhr.send(JSON.stringify(data));
+}
+
 
 function updateCart() {
     let elem = event.currentTarget;
@@ -28,26 +71,43 @@ function updateCart() {
     totalPrice.textContent = parseFloat(totalPrice.textContent) - parseFloat(itemSubtotal.textContent);
     //window.console.log(totalPrice.textContent);
 
+
+
     let unitPrice = parseFloat(itemSubtotal.textContent) / parseFloat(oldValue);
     itemSubtotal.textContent = unitPrice * parseFloat(elem.value);
     totalPrice.textContent = parseFloat(totalPrice.textContent) + parseFloat(itemSubtotal.textContent);
+    //window.console.log(totalPrice.textContent);
+
+
 
     //Update Cart Counter
     counter.textContent = parseInt(counter.textContent) - parseInt(oldValue) + parseInt(elem.value);
 
+
+
     //AJAX request to Controller
     let xhr = new XMLHttpRequest();
+
+
 
     xhr.open("POST", "/Cart/UpdateCartFromCart");
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
 
+
+
     xhr.onreadystatechange = function () {
+
+
 
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status !== 200)
                 return;
 
+
+
             let data = JSON.parse(this.responseText);
+
+
 
             if (data.isOkay === true) {
                 //unameOutput.textContent = "NO SUCH USER!";
@@ -55,8 +115,12 @@ function updateCart() {
                 console.log("success");
             }
 
+
+
         }
     }
+
+
 
     let data = {
         "productId": prodId,
@@ -64,9 +128,15 @@ function updateCart() {
         "quantity": parseInt(elem.value) || 0
     }
 
+
+
     xhr.send(JSON.stringify(data));
 
+
+
 }
+
+
 
 function getOldValue() {
     let elem = event.currentTarget;

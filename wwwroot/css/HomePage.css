@@ -31,13 +31,26 @@
     opacity: 0;
 }
 
+.img_descriptionwhenloggedin{
+    visibility:hidden;
+    opacity:0;
+}
+
+
+
 .a {
 }
 
-    .a:hover .img_description {
-        visibility: visible;
-        opacity: 1;
-    }
+.a:hover .img_description {
+    visibility: visible;
+    opacity: 1;
+}
+
+.a:hover .img_descriptionwhenloggedin{
+    visibility:visible;
+    opacity:1;
+}
+
 
 .card {
     /* Add shadows to create the "card" effect */
