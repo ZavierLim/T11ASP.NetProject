@@ -23,13 +23,11 @@ namespace T11ASP.NetProject.Controllers
         [HttpGet]
         public IActionResult Index()
         {   
-            //add the cart session
             var allProducts = context.ProductList.ToList();
             string username = HttpContext.Session.GetString("sessionId");
-
-            //need to change this because it will set the cartcount.
             var cartCount = HttpContext.Session.GetInt32("cartCount");
-            //if the user is logged in ,navigation bar to show the count of items in the cart, this data is passed to layout 
+
+            //User logged in: To display total cart quantity based on DB in layout view
             if (username != null)
             {
                     var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
@@ -46,9 +44,10 @@ namespace T11ASP.NetProject.Controllers
                     }
                 
             }
+            //User not logged in: To display total cart quantity based on SessionData in layout view
             else
             {
-                //if user is not logged in, to use the sum of items in the session instead
+
                 ViewData["numberofproductsincart"] = cartCount;
             }
             if(username==null)
@@ -62,7 +61,7 @@ namespace T11ASP.NetProject.Controllers
             return View();
         }
 
-        //this is the search bar
+        //Search Function
         [HttpPost]
         public async Task <IActionResult> Index(string searchterm)
         {
@@ -78,17 +77,8 @@ namespace T11ASP.NetProject.Controllers
                 ViewData["products"] = allProducts;
                 return View(allProducts);
             }
-            
-            
-            //var searchedProducts = context.Search(searchterm);
-            
+                        
             return View(await searchedProducts.ToListAsync());
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

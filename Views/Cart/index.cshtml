@@ -6,9 +6,9 @@
     double totalinproduct =0;
 
     List<CartDetails> shoppingcart = (List<CartDetails>)ViewData["currentShoppingCart"];
+
+
     Dictionary<ProductList, int> cartContent = (Dictionary<ProductList, int>)ViewData["cartContent"];
-
-
     var totalPrice = 0.0;
     if (cartContent != null)
     {
@@ -128,11 +128,22 @@
                 </td>
                 @if (shoppingcart != null)
                 {
-                    <td>
-                        <a asp-controller="">
-                            $<span id="totalPrice">@totalinproduct</span>
-                        </a>
-                    </td>
+            <td>
+                @if (totalPrice != 0)
+                {
+                    <a asp-controller="">
+                        $<span id="totalPrice">@totalPrice</span>
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="">
+                        $<span id="totalPrice">@totalinproduct</span>
+                    </a>
+
+                }
+
+            </td>
 
                 }
                 else
