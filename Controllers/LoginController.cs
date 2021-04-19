@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using T11ASP.NetProject.Models;
+using T11ASP.NetProject.Util;
 
 namespace T11ASP.NetProject.Controllers
 {
@@ -49,6 +50,65 @@ namespace T11ASP.NetProject.Controllers
             //if customer exist, set sessionID to customerId
             HttpContext.Session.SetString("sessionId", customer.CustomerId);
             ViewData["sessionId"] = customer.CustomerId;
+
+
+            string isthereanyitemasguest = HttpContext.Session.GetString("cartContent");
+            if(isthereanyitemasguest!=null)
+            {
+                List<CartDetails> cd = CartManager.JsonStringToList(isthereanyitemasguest);
+                foreach(var item in cd)
+                {
+                    //retrieve the cartId from DB;
+                    var sessionname = HttpContext.Session.GetString("sessionId");
+                    //string cartContent = HttpContext.Session.GetString("cartContent");
+
+                    //if sessionId Exists
+                    if (sessionname != null)
+                    {
+                        var CurrentCartExist = context.Cart.FirstOrDefault(x => x.CustomerId == sessionname);
+
+                        //cart does not exist, create new cart and update DB to cart entity
+                        if (CurrentCartExist == null)
+                        {
+                            var CreateCart = new Cart
+                            {
+                                CartId = Guid.NewGuid().ToString(),
+                                CustomerId = sessionname
+                            };
+                            context.Cart.Add(CreateCart);
+                            context.SaveChanges();
+                        }
+
+                        //Add the product in cartdetails entity
+                        var CurrentCartId = context.Cart.FirstOrDefault(x => x.CustomerId == sessionname).CartId;
+                        var itemInCart = context.CartDetails.FirstOrDefault(c => c.CartId == CurrentCartId && c.ProductId == item.ProductId);
+
+                        //if product does not exists in cart
+                        if (itemInCart == null)
+                        {
+                            var newproductincart = new CartDetails
+                            {
+                                CartId = context.Cart.FirstOrDefault(x => x.CustomerId == sessionname).CartId.ToString(),
+                                ProductId = item.ProductId,
+                                Quantity = item.Quantity
+                            };
+                            context.CartDetails.Add(newproductincart);
+
+                        }
+                        //Product exists in cart, to update cartdetails quantity
+                        else
+                        {
+                            itemInCart.Quantity += item.Quantity;
+                            HttpContext.Session.SetInt32("cartCount", itemInCart.Quantity);
+                        }
+
+                        context.SaveChanges();
+                    }
+
+                }
+            }
+            HttpContext.Session.Clear();
+            HttpContext.Session.SetString("sessionId", customer.CustomerId);
 
             //go to cart after user logs in
             return RedirectToAction("index", "Cart");
