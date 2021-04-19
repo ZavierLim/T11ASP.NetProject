@@ -126,7 +126,14 @@ namespace T11ASP.NetProject.Controllers
         public IActionResult Register(string username,string password,string address,string name)
         {
             var usernameexist = context.Customer.Find(username);
-            if(username==null|| password==null||usernameexist!=null)
+            if(usernameexist!=null)
+            {
+                ViewData["username"] = username;
+                ViewData["errMsg"] = "You are already a registered user. please try another username";
+                return View();
+
+            }
+            if (username==null|| password==null||usernameexist!=null)
             {
                 ViewData["username"]=username;
                 ViewData["errMsg"] = "failed to register for an account. please type username and password again.";

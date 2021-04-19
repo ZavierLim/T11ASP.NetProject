@@ -103,8 +103,7 @@
                             <td>@entry.Key.ProductName</td>
                             <td>$@entry.Key.UnitPrice</td>
                             <td>
-                                @entry.Value
-                                <input type="hidden" id=@entry.Key.ProductId class="quantityInput" type="number" min="1" tyle="width:30px" name=@("prodId"+entry.Key.ProductId) value="@entry.Value" />
+                                <input id=@entry.Key.ProductId class="quantityInput" type="number" min="1" tyle="width:30px" name=@("prodId"+entry.Key.ProductId) value="@entry.Value" />
                             </td>
                             <td>@{subtotal = (double)entry.Value * entry.Key.UnitPrice;}<span id=@("itemSubtotal"+ entry.Key.ProductId)>@subtotal</span></td>
                             <td>
