@@ -217,6 +217,31 @@ namespace T11ASP.NetProject.Controllers
             HttpContext.Session.SetString("cartContent", CartManager.ListToJsonString(updatedCartContent));
             return RedirectToAction("Index");
         }
+
+        //Guest add items from CartDetails Page
+        public IActionResult CartFromDetail(string prodId, int qty, string cmd)
+        {
+            string cartContent = HttpContext.Session.GetString("cartContent");
+
+            int cartCount = HttpContext.Session.GetInt32("cartCount") ?? 0;
+
+            ProductList productAdded = context.ProductList.FirstOrDefault(x => x.ProductId == int.Parse(prodId));
+            List<CartDetails> updatedCartContent = CartManager.updateCart(cartContent, productAdded, qty);
+
+            cartCount = cartCount + qty;
+
+            HttpContext.Session.SetString("cartContent", CartManager.ListToJsonString(updatedCartContent));
+            HttpContext.Session.SetInt32("cartCount", cartCount);
+
+            //to check if it is from add-to-cart button or buy now button
+            if (cmd != null)
+            {
+                string url = String.Format("/ProductDetails/Index?id={0}", prodId);
+                return Redirect(url);
+            }
+
+            return RedirectToAction("Index", "Cart");
+        }
     }
 }
     

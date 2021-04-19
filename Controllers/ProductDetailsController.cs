@@ -16,13 +16,16 @@ namespace T11ASP.NetProject.Controllers
         {
             this.context = context;
         }
+
         [HttpGet]
         public IActionResult Index(int id)
         {
             var sessionname = HttpContext.Session.GetString("sessionId");
             var product = context.ProductList.Find(id);
-            var allProducts = context.ProductList.OrderBy(emp => Guid.NewGuid()).Take(3).ToList(); //Recommendations code
-            ViewData["products"] = allProducts; //Recommendations code
+            
+            //To display recommended products
+            var allProducts = context.ProductList.OrderBy(emp => Guid.NewGuid()).Take(3).ToList();
+            ViewData["products"] = allProducts;
             ViewData["product"] = product;
             ViewData["session"] = sessionname;
 
@@ -30,7 +33,6 @@ namespace T11ASP.NetProject.Controllers
             var prodComment = context.ProductComment.Where(x => x.ProductId == id).ToList();
             int numberofprods = prodComment.Count();
             var ratingSum = prodComment.Sum(x => x.Rating);
-
             if (numberofprods < 1)
             {
                 ViewData["prodRating"] = 0.0;
@@ -42,7 +44,7 @@ namespace T11ASP.NetProject.Controllers
                 ViewData["numberofProds"] = numberofprods;
             }
 
-            //To show number of items in cart on navigation bar
+            //If logged in: Pass data to cartnumber in layout view
             if (sessionname != null)
             {
                 var cartexists = context.CartDetails.Where(x => x.Cart.CustomerId == HttpContext.Session.GetString("sessionId"));
@@ -56,6 +58,7 @@ namespace T11ASP.NetProject.Controllers
                     ViewData["numberofproductsincart"] = numberofitems;
                 }
             }
+            //If not logged in: use Sessiondata to pass cartnumber in layout view
             else
             {
                 ViewData["numberofproductsincart"] = HttpContext.Session.GetInt32("cartCount");
@@ -66,33 +69,5 @@ namespace T11ASP.NetProject.Controllers
             ViewData["AllProductReviews"] = AllProductReviews;
             return View();
         }
-
-        //TODO: shift this to cart controller. 
-        public IActionResult CartFromDetail(string prodId, int qty, string cmd)
-        {
-            string cartContent = HttpContext.Session.GetString("cartContent");
-
-            int cartCount = HttpContext.Session.GetInt32("cartCount") ?? 0;
-
-            ProductList productAdded = context.ProductList.FirstOrDefault(x => x.ProductId == int.Parse(prodId));
-            List<CartDetails> updatedCartContent = CartManager.updateCart(cartContent, productAdded, qty);
-
-            cartCount = cartCount + qty;
-
-            HttpContext.Session.SetString("cartContent", CartManager.ListToJsonString(updatedCartContent));
-            HttpContext.Session.SetInt32("cartCount", cartCount);
-
-            //to check if it is from add-to-cart button or buy now button
-            if (cmd != null)
-            {
-                string url = String.Format("/ProductDetails/Index?id={0}", prodId);
-                return Redirect(url);
-            }
-
-            return RedirectToAction("Index", "Cart");
-        }
-
-
-
     }
 }

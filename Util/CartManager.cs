@@ -5,9 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using T11ASP.NetProject.Models;
 
-//HG changes here
+
 namespace T11ASP.NetProject.Util
 {
+    //CartManager are helper functions to add/remove/update sessionData when guests add items to cart
     public class CartManager
     {
         static public List<CartDetails> JsonStringToList(string jsonString)
