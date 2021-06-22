@@ -10,7 +10,7 @@ Database: MSSQL- with asp.netentity framework
 Code Features:
 1. Entity Framework Code First for SQL database 
 2. CRUD operations on Shopping cart
-3. Usage of SessionData and AJAX to store shopping cart items without saving in in DB until user is logged in.
+3. Usage of SessionData and AJAX to store shopping cart items without saving in DB until user is logged in.
 4. Usage of Bootstrap and CSS with good UI design
 
 Project Screenshots:
