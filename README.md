@@ -7,13 +7,13 @@ Front-End languages: HTML/CSS/JavaScript
 Back-End languages: C# 
 Database: MSSQL- with asp.netentity framework
 
-Code Features:
+#### Code Features:
 1. Entity Framework Code First for SQL database 
 2. CRUD operations on Shopping cart
 3. Usage of SessionData and AJAX to store shopping cart items without saving in DB until user is logged in.
 4. Usage of Bootstrap and CSS with good UI design
 
-Project Screenshots:
+#### Project Screenshots:
 1. Main Product Page with search functionality
 ![image](https://user-images.githubusercontent.com/75073384/122855104-4d6c1600-d347-11eb-8662-180c91f7131a.png)
 
